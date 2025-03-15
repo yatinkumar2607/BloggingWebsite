@@ -67,7 +67,7 @@ export default function BlogCard({
         <div className="flex justify-end">
           <Link
             href="/"
-            className="border-[0.75px] border-[#ebeef3] rounded-sm px-[10px] py-[6px] font-dm-sans text-[14px] leadin-[14px] font-normal"
+            className="border-[0.75px] border-lighter rounded-sm px-[10px] py-[6px] font-dm-sans text-[14px] leadin-[14px] font-normal"
           >
             Read More
           </Link>

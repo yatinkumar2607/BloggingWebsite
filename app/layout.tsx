@@ -4,8 +4,8 @@ import { Saira_Condensed, Saira_Extra_Condensed } from "next/font/google";
 import { Roboto } from "next/font/google";
 import { Noto_Sans_Old_Sogdian } from "next/font/google";
 import { DM_Sans } from "next/font/google";
-import Header from "@/components/header";
 import Footer from "@/components/Footer";
+import HeaderV1 from "@/components/HeaderV1";
 
 const sairaExtraCondensed = Saira_Extra_Condensed({
   subsets: ["latin"],
@@ -57,7 +57,7 @@ export default function RootLayout({
       <body
         className={`${sairaExtraCondensed.variable} ${roboto.variable} ${notoSansOldSogdian.variable} ${sairaCondensed.variable} ${dmSans.variable}`}
       >
-        <Header />
+        <HeaderV1 />
         {children}
         <Footer />
       </body>

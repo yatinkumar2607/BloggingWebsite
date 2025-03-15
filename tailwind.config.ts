@@ -67,6 +67,12 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        light: "#e1e8f0",
+        lighter: "#ebeef3",
+        lightest: "#f9fafc",
+        dark: "#b8c2ce",
+        darker: "#262626",
+
       },
       keyframes: {
         'accordion-down': {

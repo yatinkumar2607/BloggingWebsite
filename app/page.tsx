@@ -12,7 +12,7 @@ export default function Home() {
         title="Discover the member benifts of USA Cycling!"
       />
       <SectionWrapper sliderHeading="Trending" />
-      {/* <NewsSlider /> */}
+      <NewsSlider />
       <SectionWrapper sliderHeading="Recent" />
       <SectionWrapper sliderHeading="Top Articles" />
     </>

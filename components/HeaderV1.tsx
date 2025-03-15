@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, Search, X } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import { X } from "lucide-react";
 
-const Header = () => {
+const HeaderV1 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Static navigation items (can be replaced with API later)
@@ -37,17 +37,16 @@ const Header = () => {
   */
 
   return (
-    <header className="fixed w-full bg-[#00000091] backdrop-blur-[6.7px] text-white z-50">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-[66px]">
-          <div className="flex items-center space-x-5">
-            {/* Left - Mobile Menu Button */}
+    <header className="fixed w-full backdrop-blur-[6.7px] bg-[#00000091] z-50">
+      <div className="max-w-7xl w-full mx-auto px-5 sm:px-6 md:px-8 lg:px-10">
+        <div className="flex items-center justify-between h-[66px] sm:h-[72px] md:h-[88px] lg:h-[100px] xl:h-[113px]">
+          <div className="flex items-center space-x-5 sm:space-x-6 md:space-x-7 lg:space-x-0">
             <button
-              className="md:hidden rounded-md hover:bg-white/10 focus:outline-none"
+              className="lg:hidden rounded-md"
               onClick={() => setIsMenuOpen((prev) => !prev)}
             >
               {isMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6 text-[#d9d9d9]" />
               ) : (
                 <Image
                   src="/images/Frame.svg"
@@ -57,18 +56,14 @@ const Header = () => {
                 />
               )}
             </button>
-
-            {/* Center - Logo */}
             <Link
               href="/"
-              className="text-2xl md:text-3xl font-bold tracking-wider hover:text-blue-400 transition-colors font-saira-extra-condensed"
+              className="text-[24px] leading-[22px] sm:text-[28px] sm:leading-[23px] md:text-[36px] md:leading-[42px] lg:text-[48px] lg:leading-[64px] xl:text-[64px] xl:leading-[74px] font-bold text-white font-saira-extra-condensed uppercase"
             >
-              SIX AND FOURS
+              Six and Fours
             </Link>
           </div>
-
-          {/* Right - Search Icon (Visible only on Mobile) */}
-          <button className="md:hidden rounded-md hover:bg-white/10 focus:outline-none">
+          <button className="lg:hidden rounded-md hover:bg-white/10 focus:outline-none">
             <Image
               src="images/Vector.svg"
               alt="search-icon"
@@ -76,24 +71,20 @@ const Header = () => {
               height={19}
             />
           </button>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden lg:flex items-center space-x-[19px]">
             {navItems.map(({ label, href }) => (
               <Link
                 key={label}
                 href={href}
-                className="text-gray-300 hover:text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="font-noto-sans font-semibold text-[14px] leading-[38px] xl:text-[16px] xl:leading-[42px] text-white p-[8px] xl:p-[10px]"
               >
                 {label}
               </Link>
             ))}
           </nav>
         </div>
-
-        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden flex flex-col py-2 space-y-1">
+          <div className="lg:hidden flex flex-col py-2 space-y-1">
             {navItems.map(({ label, href }) => (
               <Link
                 key={label}
@@ -111,4 +102,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderV1;
