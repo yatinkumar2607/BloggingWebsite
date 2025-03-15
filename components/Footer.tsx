@@ -74,7 +74,7 @@ export default function Footer() {
         </div>
 
         {/* Social Media Icons */}
-        <div className="flex items-center space-x-[14px]">
+        <div className="flex items-center space-x-[14px] ">
           <Link
             href="/"
             className="w-[30px] h-[30px] rounded-sm bg-[#d9d9d936] flex items-center justify-center"
