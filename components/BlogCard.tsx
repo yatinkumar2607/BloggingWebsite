@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ export default function BlogCard({
     <Card className="text-white max-w-md mx-auto overflow-hidden border-none rounded-none bg-[#121212] space-y-[23px]">
       <div className="relative w-full h-44 rounded-[6px] overflow-hidden">
         <Image
-          src={featuredImage || "/placeholder.svg"}
+          src={featuredImage}
           alt={title}
           fill
           className="object-cover"
@@ -43,13 +43,10 @@ export default function BlogCard({
       <CardContent className="p-0 space-y-[14px]">
         <div className="flex items-center space-x-4">
           <Avatar className="h-11 w-11">
-            <AvatarImage
-              src={authorImage || "/placeholder.svg"}
-              alt={`${authorName} avatar`}
-            />
-            <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
+            <AvatarImage src={authorImage} alt={`${authorName} avatar`} />
+            {/* <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
               {initials}
-            </AvatarFallback>
+            </AvatarFallback> */}
           </Avatar>
           <span className="text-[14px] leading-[22px] font-noto-sans text-[#d9d9d9]">
             {authorName}

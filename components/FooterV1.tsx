@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Footer() {
+export default function FooterV1() {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {

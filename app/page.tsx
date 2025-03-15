@@ -1,6 +1,36 @@
-import HeroSection from "@/components/HeroSection";
+import type { Metadata } from "next";
 import NewsSlider from "@/components/NewsSlider";
+import HeroSection from "@/components/HeroSection";
 import SectionWrapper from "@/components/SectionWrapper";
+
+// Static metadata for the home page
+export const metadata: Metadata = {
+  title: "Six and Fours | Sports News and Updates",
+  description:
+    "Get the latest sports news, trending stories, recent updates, and top articles from Six and Fours.",
+  keywords: ["sports", "cycling", "news", "articles"],
+  openGraph: {
+    title: "Six and Fours | Sports News and Updates",
+    description:
+      "Get the latest sports news, trending stories, recent updates, and top articles from Six and Fours.",
+    images: [
+      {
+        url: "/images/og-image.jpg", // Replace with your actual OG image
+        width: 1200,
+        height: 630,
+        alt: "Six and Fours",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Six and Fours | Sports News and Updates",
+    description:
+      "Get the latest sports news, trending stories, recent updates, and top articles from Six and Fours.",
+    images: ["/images/twitter-image.jpg"], // Replace with your actual Twitter image
+  },
+};
 
 export default function Home() {
   return (
