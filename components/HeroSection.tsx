@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface Post {
   tag: string;
@@ -113,20 +114,84 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
           </div>
           <div className="max-w-7xl mx-auto w-full relative px-5 sm:px-6 md:px-8 lg:px-10 pt-[66px] sm:pt-[72px] md:pt-[88px] lg:pt-[100px] xl:pt-[113px] pb-[15px] sm:pb-[20px] md:pb-[30px] lg:pb-[40px] xl:pb-[68px] flex flex-col min-h-[460px] lg:min-h-[500px] xl:min-h-[583px] text-[#d9d9d9]">
             <div className="pt-5 sm:pt-4 md:pt-3 lg:pt-2 xl:pt-1 flex flex-col justify-between h-full w-auto">
-              <span className="flex">
-                <span className="font-roboto font-medium text-sm sm:text-base md:text-[18px] lg:text-[20px] text-[#d9d9d9] px-[16.85px] sm:px-[18px] py-[3.85px] border-[0.65px] border-[#d9d9d9]">
+              <motion.span
+                className="flex"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.6,
+                    delay: 0.3,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
+              >
+                <motion.span
+                  className="font-roboto font-medium text-sm sm:text-base md:text-[18px] lg:text-[20px] text-[#d9d9d9] px-[16.85px] sm:px-[18px] py-[3.85px] border-[0.65px] border-[#d9d9d9]"
+                  initial={{ scale: 0.9 }}
+                  animate={{
+                    scale: 1,
+                    transition: {
+                      duration: 0.4,
+                      delay: 0.5,
+                    },
+                  }}
+                >
                   {post.tag}
-                </span>
-              </span>
+                </motion.span>
+              </motion.span>
             </div>
 
             <div className="space-y-[10px] sm:space-y-[12px] flex-1 flex flex-col justify-end">
-              <span className="font-nato-sans text-[14px] sm:text-[16px] md:text-[18px] font-normal text-[#d9d9d9]">
+              <motion.span
+                className="font-nato-sans text-[14px] sm:text-[16px] md:text-[18px] font-normal text-[#d9d9d9]"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 0.6,
+                    delay: 0.7,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
+              >
                 {post.date}
-              </span>
-              <h1 className="uppercase font-saira-condensed font-bold text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] leading-[34px] lg:leading-[36px] text-[#d9d9d9]">
-                {post.title}
-              </h1>
+              </motion.span>
+
+              <motion.h1
+                className="uppercase font-saira-condensed font-bold text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] leading-[34px] lg:leading-[36px] text-[#d9d9d9]"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.8,
+                    delay: 0.9,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
+              >
+                {post.title.split(" ").map((word, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        delay: 1.1 + i * 0.08,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
+                    }}
+                    className="inline-block mr-2"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.h1>
             </div>
           </div>
         </div>
