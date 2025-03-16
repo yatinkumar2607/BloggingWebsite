@@ -17,10 +17,8 @@ const posts = [
     title:
       "Lionel Messi Leaving Ligue 1 Team Paris Saint-Germain, Club Confirms",
   },
-  // Add more posts as needed
 ];
 
-// Static metadata for the home page
 export const metadata: Metadata = {
   title: "Six and Fours | Sports News and Updates",
   description:
@@ -75,7 +73,7 @@ export default function Home() {
     },
     {
       id: 3,
-      image: "/images/9a679af59a3678412acbe0c5b79c5c31.jpeg",
+      image: "/images/a2133d2051ea3e3a6a557b092072c912.jpeg",
       source: "Sports Illustrated",
       date: "14 March 2025",
       title: "NBA ANNOUNCES EXPANSION TEAMS IN LAS VEGAS AND SEATTLE",
@@ -85,7 +83,7 @@ export default function Home() {
     },
     {
       id: 4,
-      image: "/images/a2133d2051ea3e3a6a557b092072c912.jpeg",
+      image: "/images/9a679af59a3678412acbe0c5b79c5c31.jpeg",
       source: "BBC Sport",
       date: "12 March 2025",
       title: "RAFAEL NADAL ANNOUNCES RETIREMENT FROM PROFESSIONAL TENNIS",

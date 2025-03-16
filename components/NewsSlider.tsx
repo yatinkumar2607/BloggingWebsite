@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface NewsItem {
   id: number;
-  image: string;
-  source: string;
   date: string;
   title: string;
-  description: string;
+  image: string;
+  source: string;
   category?: string;
+  description: string;
 }
 
 interface NewsSliderProps {
