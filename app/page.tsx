@@ -3,6 +3,7 @@ import NewsSlider from "@/components/NewsSlider";
 import HeroSection from "@/components/HeroSection";
 import SectionWrapper from "@/components/SectionWrapper";
 import FullWidthSlider from "@/components/FullWidthSlider";
+import SectionWrapperV2 from "@/components/SectionWrapperV2";
 
 const posts = [
   {
@@ -89,6 +90,7 @@ export default function Home() {
     <>
       <HeroSection posts={posts} />
       <SectionWrapper sliderHeading="Trending" />
+      <SectionWrapperV2 headingCol1="IPL Points table" headingCol2="Folders" />
       {/* <NewsSlider items={newsItems} autoPlayInterval={8000} /> */}
       <FullWidthSlider posts={newsItems} />
       <SectionWrapper sliderHeading="Recent" />
