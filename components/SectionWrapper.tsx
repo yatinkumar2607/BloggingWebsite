@@ -7,7 +7,7 @@ interface SectionWrapperProps {
 
 const SectionWrapper: React.FC<SectionWrapperProps> = ({ sliderHeading }) => {
   return (
-    <section className="section px-5 bg-[#121212]">
+    <section className="section bg-[#121212]">
       <SliderPosts heading={sliderHeading} />
     </section>
   );

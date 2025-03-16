@@ -7,15 +7,15 @@ interface SliderPostsProps {
 
 const SliderPosts: React.FC<SliderPostsProps> = ({ heading }) => {
   return (
-    <div className="py-5">
-      <div className="space-y-[10px]">
-        <div className="flex items-center space-x-2">
-          <h2 className="font-saira-condensed text-[#d9d9d9] text-[24px] leading-[34px] font-bold">
+    <div className="max-w-7xl w-full mx-auto px-5 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-6 md:py-8 lg:py-10 xl:py-11">
+      <div className="space-y-[10px] sm:space-y-[14px] md:space-y-[18px] lg:space-y-[20px]">
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <h2 className="font-saira-condensed text-[#d9d9d9] text-[24px] sm:text-[28px] leading-[34px] font-bold">
             {heading}
           </h2>
           <span className="flex-1 bg-[#2a2a2a] h-[5px]"></span>
         </div>
-        <div className="flex flex-col space-y-[26px]">
+        <div className="grid grid-cols-1 gap-[26px]">
           <BlogCard
             featuredImage="/images/9a679af59a3678412acbe0c5b79c5c31.jpeg"
             authorName="Jake Will"

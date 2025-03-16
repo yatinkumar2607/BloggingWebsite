@@ -30,8 +30,8 @@ export default function BlogCard({
     .toUpperCase();
 
   return (
-    <Card className="text-white max-w-md mx-auto overflow-hidden border-none rounded-none bg-[#121212] space-y-[23px]">
-      <div className="relative w-full h-44 rounded-[6px] overflow-hidden">
+    <Card className="text-white mx-auto overflow-hidden border-none rounded-none bg-[#121212] space-y-[23px]">
+      <div className="relative w-full h-44 sm:h-52 rounded-[6px] overflow-hidden">
         <Image
           src={featuredImage}
           alt={title}

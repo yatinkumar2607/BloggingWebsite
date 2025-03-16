@@ -1,7 +1,23 @@
 import type { Metadata } from "next";
-import NewsSlider from "@/components/NewsSlider";
 import HeroSection from "@/components/HeroSection";
 import SectionWrapper from "@/components/SectionWrapper";
+
+const posts = [
+  {
+    tag: "Cycling",
+    date: "Debits - 03 June 2023",
+    image: "/images/dec5f05fce3ccef2b5c1d1d3b1dfedb8.jpeg",
+    title: "Discover the member benifts of USA Cycling!",
+  },
+  {
+    tag: "Recent",
+    date: "Agence France-Presse - 04 June 2023",
+    image: "/images/08e1a7e3ae559ddf8fac2dd016a414b4.jpeg",
+    title:
+      "Lionel Messi Leaving Ligue 1 Team Paris Saint-Germain, Club Confirms",
+  },
+  // Add more posts as needed
+];
 
 // Static metadata for the home page
 export const metadata: Metadata = {
@@ -35,14 +51,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <HeroSection
-        image="/images/dec5f05fce3ccef2b5c1d1d3b1dfedb8.jpeg"
-        tag="Cycling"
-        date="Debits - 03 June 2023"
-        title="Discover the member benifts of USA Cycling!"
-      />
+      <HeroSection posts={posts} />
       <SectionWrapper sliderHeading="Trending" />
-      <NewsSlider />
       <SectionWrapper sliderHeading="Recent" />
       <SectionWrapper sliderHeading="Top Articles" />
     </>
