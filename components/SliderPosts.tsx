@@ -15,7 +15,7 @@ const SliderPosts: React.FC<SliderPostsProps> = ({ heading }) => {
           </h2>
           <span className="flex-1 bg-[#2a2a2a] h-[5px]"></span>
         </div>
-        <div className="grid grid-cols-1 gap-[26px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px]">
           <BlogCard
             featuredImage="/images/9a679af59a3678412acbe0c5b79c5c31.jpeg"
             authorName="Jake Will"
@@ -34,15 +34,17 @@ const SliderPosts: React.FC<SliderPostsProps> = ({ heading }) => {
             excerpt="This article was written by Jake Willhoite from Healthlisted.com Strength in basketball isn't all about a massive body mass or ripped muscles."
             readMoreUrl="/blog/basketball-strength-exercises"
           />
-          <BlogCard
-            featuredImage="/images/9a679af59a3678412acbe0c5b79c5c31.jpeg"
-            authorName="Jake Will"
-            authorImage="/images/unsplash_B5PLtlpR7YA.png"
-            date="04 June 2023"
-            title="5 Exercises Basketball Players Should Be Using To Develop Strength"
-            excerpt="This article was written by Jake Willhoite from Healthlisted.com Strength in basketball isn't all about a massive body mass or ripped muscles."
-            readMoreUrl="/blog/basketball-strength-exercises"
-          />
+          <span className="hidden lg:block">
+            <BlogCard
+              featuredImage="/images/9a679af59a3678412acbe0c5b79c5c31.jpeg"
+              authorName="Jake Will"
+              authorImage="/images/unsplash_B5PLtlpR7YA.png"
+              date="04 June 2023"
+              title="5 Exercises Basketball Players Should Be Using To Develop Strength"
+              excerpt="This article was written by Jake Willhoite from Healthlisted.com Strength in basketball isn't all about a massive body mass or ripped muscles."
+              readMoreUrl="/blog/basketball-strength-exercises"
+            />
+          </span>
         </div>
       </div>
     </div>
