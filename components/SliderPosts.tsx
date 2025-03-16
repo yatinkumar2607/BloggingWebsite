@@ -7,13 +7,13 @@ import { motion } from "framer-motion";
 interface SliderPostsProps {
   heading: string;
   posts?: {
-    featuredImage: string;
-    authorName: string;
-    authorImage: string;
     date: string;
     title: string;
     excerpt: string;
+    authorName: string;
+    authorImage: string;
     readMoreUrl: string;
+    featuredImage: string;
   }[];
 }
 
@@ -21,7 +21,7 @@ const SliderPosts: React.FC<SliderPostsProps> = ({
   heading,
   posts = [
     {
-      featuredImage: "/images/9a679af59a3678412acbe0c5b79c5c31.jpeg",
+      featuredImage: "/images/a2133d2051ea3e3a6a557b092072c912.jpeg",
       authorName: "Jake Will",
       authorImage: "/images/unsplash_B5PLtlpR7YA.png",
       date: "04 June 2023",
@@ -32,42 +32,38 @@ const SliderPosts: React.FC<SliderPostsProps> = ({
       readMoreUrl: "/blog/basketball-strength-exercises",
     },
     {
-      featuredImage: "/images/9a679af59a3678412acbe0c5b79c5c31.jpeg",
-      authorName: "Jake Will",
-      authorImage: "/images/unsplash_B5PLtlpR7YA.png",
+      featuredImage: "/images/2a0a6b22204579198ff2e4508646a424.jpeg",
+      authorName: "Foxi.zacon",
+      authorImage: "/images/5981edd2f36ac7a25da535a72c53d8d1.png",
       date: "04 June 2023",
-      title:
-        "5 Exercises Basketball Players Should Be Using To Develop Strength",
+      title: "Golden Knights out to fulfill owner's quest to win Stanley Cup ",
       excerpt:
-        "This article was written by Jake Willhoite from Healthlisted.com Strength in basketball isn't all about a massive body mass or ripped muscles.",
+        "The Vegas Golden Knights will play the Florida Panthers in the Stanley Cup Final beginning Saturday.",
       readMoreUrl: "/blog/basketball-strength-exercises",
     },
     {
       featuredImage: "/images/9a679af59a3678412acbe0c5b79c5c31.jpeg",
-      authorName: "Jake Will",
-      authorImage: "/images/unsplash_B5PLtlpR7YA.png",
+      authorName: "Bong Lozada",
+      authorImage: "/images/2ebb4b871e0a80806470c2eb1a8969ce.png",
       date: "04 June 2023",
-      title:
-        "5 Exercises Basketball Players Should Be Using To Develop Strength",
+      title: "‘Outdoor’ Badminton Gets Support From Local Federation",
       excerpt:
-        "This article was written by Jake Willhoite from Healthlisted.com Strength in basketball isn't all about a massive body mass or ripped muscles.",
+        "The Badminton World Federation is developing Air Badminton and the country’s governing body, Philippine Badminton Association.",
       readMoreUrl: "/blog/basketball-strength-exercises",
     },
   ],
 }) => {
-  // Container animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2, // Stagger children animations by 0.2s
-        delayChildren: 0.1, // Delay the first child by 0.1s
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
       },
     },
   };
 
-  // Individual card animation variants
   const cardVariants = {
     hidden: {
       opacity: 0,
@@ -80,12 +76,11 @@ const SliderPosts: React.FC<SliderPostsProps> = ({
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1.0], // Custom easing function for smoother animation
+        ease: [0.25, 0.1, 0.25, 1.0],
       },
     },
   };
 
-  // Header animation variants
   const headerVariants = {
     hidden: { opacity: 0, x: -20 },
     visible: {
@@ -98,7 +93,6 @@ const SliderPosts: React.FC<SliderPostsProps> = ({
     },
   };
 
-  // Line animation variants
   const lineVariants = {
     hidden: { scaleX: 0, originX: 0 },
     visible: {
@@ -135,7 +129,6 @@ const SliderPosts: React.FC<SliderPostsProps> = ({
             variants={lineVariants}
           ></motion.span>
         </motion.div>
-
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px]"
           initial="hidden"
