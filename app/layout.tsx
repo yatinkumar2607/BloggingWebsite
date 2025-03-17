@@ -14,6 +14,7 @@ import {
   fetchGlobalData,
   extractNavItems,
   extractSocialLinks,
+  extractOgImageUrl,
 } from "@/lib/api";
 
 const sairaExtraCondensed = Saira_Extra_Condensed({
@@ -60,6 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const fallbackDescription =
     "Six and Fours provides the latest sports news, trending stories, and in-depth articles.";
   const fallbackUrl = "https://sixandfours.com";
+  const fallbackOgImage = "/images/og-image.jpg"; // Fallback OG image path
 
   // Extract data from API response or use fallbacks
   const siteTitle = globalData?.data?.defaultSeo?.metaTitle || fallbackTitle;
@@ -67,6 +69,20 @@ export async function generateMetadata(): Promise<Metadata> {
     globalData?.data?.defaultSeo?.metaDescription || fallbackDescription;
   const siteName = globalData?.data?.siteName || "Six and Fours";
   const faviconUrl = globalData?.data?.favicon?.url || "/favicon.ico";
+
+  // Extract OG image URL using the helper function
+  const ogImageUrl = extractOgImageUrl(globalData) || fallbackOgImage;
+
+  // Ensure the OG image URL is absolute
+  const absoluteOgImageUrl = ogImageUrl.startsWith("http")
+    ? ogImageUrl
+    : `${fallbackUrl}${ogImageUrl}`;
+
+  // Get image dimensions if available
+  const ogImageWidth =
+    globalData?.data?.defaultSeo?.shareImage?.formats?.large?.width || 1000;
+  const ogImageHeight =
+    globalData?.data?.defaultSeo?.shareImage?.formats?.large?.height || 665;
 
   return {
     metadataBase: new URL(fallbackUrl),
@@ -84,11 +100,20 @@ export async function generateMetadata(): Promise<Metadata> {
       description: siteDescription,
       siteName: siteName,
       type: "website",
+      images: [
+        {
+          url: absoluteOgImageUrl,
+          width: ogImageWidth,
+          height: ogImageHeight,
+          alt: siteName,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: siteTitle,
       description: siteDescription,
+      images: [absoluteOgImageUrl],
     },
   };
 }

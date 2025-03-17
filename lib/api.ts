@@ -8,23 +8,58 @@ export interface MenuItem {
     [key: string]: MenuItem
   }
   
-  export interface StrapiImage {
+  export interface ImageFormat {
+    ext: string
     url: string
+    hash: string
+    mime: string
+    name: string
+    path: null
+    size: number
+    width: number
+    height: number
+    sizeInBytes: number
+  }
+  
+  export interface StrapiImage {
+    id: number
+    documentId: string
+    name: string
+    alternativeText: string | null
+    caption: string | null
+    width: number
+    height: number
+    formats: {
+      large?: ImageFormat
+      small?: ImageFormat
+      medium?: ImageFormat
+      thumbnail?: ImageFormat
+    } | null
+    hash: string
     ext: string
     mime: string
-    height: number | null
-    width: number | null
+    size: number
+    url: string
+    previewUrl: string | null
+    provider: string
+    provider_metadata: any
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
   }
   
   export interface StrapiSeo {
+    id: number
     metaTitle: string
     metaDescription: string
+    shareImage?: StrapiImage // Updated to match the actual API response
   }
   
   export interface StrapiGlobalData {
     meta: any
     data: {
       id: number
+      documentId: string
       Menu: MenuItems
       siteName: string
       TwitterLink: string
@@ -47,21 +82,24 @@ export interface MenuItem {
     twitter: string
   }
   
+  // Article interface
   export interface Article {
-    id: string
+    id: number
     title: string
-    slug: string
-    excerpt?: string
-    content?: string
-    publishedAt: string
+    content: string
+    // Add other fields as necessary
   }
   
   // Fetch global data from Strapi
   export async function fetchGlobalData(): Promise<StrapiGlobalData | null> {
     try {
-      const res = await fetch("https://credible-rhythm-2abfae7efc.strapiapp.com/api/global?populate=*", {
-        next: { revalidate: 3600 }, // Revalidate every hour
-      })
+      // Updated URL to include the populate parameter for the shareImage
+      const res = await fetch(
+        "https://credible-rhythm-2abfae7efc.strapiapp.com/api/global?populate=defaultSeo.shareImage",
+        {
+          next: { revalidate: 3600 }, // Revalidate every hour
+        },
+      )
   
       if (!res.ok) {
         throw new Error(`Failed to fetch global data: ${res.status}`)
@@ -120,6 +158,23 @@ export interface MenuItem {
       linkedin: globalData.data.LinkedInLink || defaultLinks.linkedin,
       twitter: globalData.data.TwitterLink || defaultLinks.twitter,
     }
+  }
+  
+  // Helper function to extract OG image URL from global data
+  export function extractOgImageUrl(globalData: StrapiGlobalData | null): string | null {
+    if (!globalData?.data?.defaultSeo?.shareImage) {
+      return null
+    }
+  
+    const shareImage = globalData.data.defaultSeo.shareImage
+  
+    // Use large format if available (closest to recommended OG image size)
+    if (shareImage.formats?.large) {
+      return shareImage.formats.large.url
+    }
+  
+    // Fallback to original image if no large format
+    return shareImage.url
   }
   
   // Fetch all articles
