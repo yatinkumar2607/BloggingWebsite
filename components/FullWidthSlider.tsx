@@ -110,7 +110,7 @@ export default function FullWidthSlider({ posts = [] }: FullWidthSliderProps) {
   };
 
   return (
-    <section className="relative min-h-[450px] lg:min-h-[500px] xl:min-h-[583px] overflow-hidden bg-[#121212]">
+    <section className="relative min-h-[450px] lg:min-h-[500px] xl:min-h-[583px] overflow-hidden">
       {allPosts.map((post, index) => (
         <div
           key={index}

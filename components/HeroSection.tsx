@@ -15,7 +15,6 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ posts = [] }: HeroSectionProps) {
-  // Default posts if none provided
   const defaultPosts: Post[] = [
     {
       tag: "Technology",
@@ -52,8 +51,7 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
   const allPosts = posts.length > 0 ? posts : defaultPosts;
 
   return (
-    <section className="relative min-h-[460px] lg:min-h-[500px] xl:min-h-[583px] overflow-hidden bg-[#121212]">
-      {/* CSS for animations - improved cross-fade */}
+    <section className="relative min-h-[460px] lg:min-h-[500px] xl:min-h-[583px] overflow-hidden">
       <style jsx global>{`
         .hero-slide {
           position: absolute;
@@ -142,7 +140,6 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
                 </motion.span>
               </motion.span>
             </div>
-
             <div className="space-y-[10px] sm:space-y-[12px] flex-1 flex flex-col justify-end">
               <motion.span
                 className="font-nato-sans text-[14px] sm:text-[16px] md:text-[18px] font-normal text-[#d9d9d9]"
@@ -159,7 +156,6 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
               >
                 {post.date}
               </motion.span>
-
               <motion.h1
                 className="uppercase font-saira-condensed font-bold text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] leading-[34px] lg:leading-[36px] text-[#d9d9d9]"
                 initial={{ opacity: 0, y: 30 }}

@@ -4,13 +4,35 @@ import Link from "next/link";
 import type React from "react";
 import Image from "next/image";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { MoveUpRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { motion } from "framer-motion";
 
-export default function FooterV1() {
+interface FooterProps {
+  socialLinks?: {
+    facebook: string;
+    linkedin: string;
+    twitter: string;
+  };
+}
+
+export default function Footer({ socialLinks }: FooterProps) {
   const [email, setEmail] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+
+  // Default social links as fallback
+  const defaultSocialLinks = {
+    facebook: "https://www.facebook.com/",
+    linkedin: "https://in.linkedin.com/",
+    twitter: "https://x.com/home",
+  };
+
+  // Use provided links or fallbacks
+  const {
+    facebook = defaultSocialLinks.facebook,
+    linkedin = defaultSocialLinks.linkedin,
+    twitter = defaultSocialLinks.twitter,
+  } = socialLinks || defaultSocialLinks;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +40,6 @@ export default function FooterV1() {
     setEmail("");
   };
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -110,9 +131,34 @@ export default function FooterV1() {
     tap: { scale: 0.95 },
   };
 
+  // Social media data with dynamic links
+  const socialMediaData = [
+    {
+      icon: "/images/facebook.svg",
+      width: 11,
+      height: 22,
+      rounded: "rounded-sm",
+      link: facebook,
+    },
+    {
+      icon: "/images/instagram.svg", // Using Instagram icon for LinkedIn
+      width: 17,
+      height: 17,
+      rounded: "rounded-sm",
+      link: linkedin,
+    },
+    {
+      icon: "/images/twitter.svg",
+      width: 16,
+      height: 13,
+      rounded: "rounded-full",
+      link: twitter,
+    },
+  ];
+
   return (
     <motion.footer
-      className="w-full bg-[#121212] pt-[35px] px-4 sm:px-6 md:px-8 lg:px-10 pb-[25px] sm:pb-[32px] md:pb-[40px] lg:pb-[55px] xl:pb-[70px]"
+      className="w-full pt-[35px] px-4 sm:px-6 md:px-8 lg:px-10 pb-[25px] sm:pb-[32px] md:pb-[40px] lg:pb-[55px] xl:pb-[70px]"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -179,26 +225,7 @@ export default function FooterV1() {
           </div>
         </motion.div>
         <div className="flex items-center space-x-[14px]">
-          {[
-            {
-              icon: "/images/facebook.svg",
-              width: 11,
-              height: 22,
-              rounded: "rounded-sm",
-            },
-            {
-              icon: "/images/instagram.svg",
-              width: 17,
-              height: 17,
-              rounded: "rounded-sm",
-            },
-            {
-              icon: "/images/twitter.svg",
-              width: 16,
-              height: 13,
-              rounded: "rounded-full",
-            },
-          ].map((social, index) => (
+          {socialMediaData.map((social, index) => (
             <motion.div
               key={index}
               custom={index}
@@ -211,7 +238,9 @@ export default function FooterV1() {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                href="/"
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`w-[30px] sm:w-[34px] md:w-[40px] lg:w-[50px] xl:w-[55px] h-[30px] sm:h-[34px] md:h-[40px] lg:h-[50px] xl:h-[55px] ${social.rounded} bg-[#d9d9d936] flex items-center justify-center`}
               >
                 <motion.div

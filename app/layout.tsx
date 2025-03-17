@@ -1,7 +1,4 @@
 import "./globals.css";
-import type { Metadata } from "next";
-import FooterV1 from "@/components/FooterV1";
-import HeaderV1 from "@/components/HeaderV1";
 import {
   Roboto,
   DM_Sans,
@@ -9,6 +6,15 @@ import {
   Noto_Sans_Old_Sogdian,
   Saira_Extra_Condensed,
 } from "next/font/google";
+import type React from "react";
+import type { Metadata } from "next";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import {
+  fetchGlobalData,
+  extractNavItems,
+  extractSocialLinks,
+} from "@/lib/api";
 
 const sairaExtraCondensed = Saira_Extra_Condensed({
   display: "swap",
@@ -45,34 +51,73 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-// Default metadata for all pages
-export const metadata: Metadata = {
-  metadataBase: new URL("https://sixandfours.com"), // Replace with your actual domain
-  title: {
-    template: "%s | Six and Fours",
-    default: "Six and Fours | Sports News and Updates",
-  },
-  description:
-    "Six and Fours provides the latest sports news, trending stories, and in-depth articles.",
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-icon.png",
-  },
-};
+// Generate dynamic metadata
+export async function generateMetadata(): Promise<Metadata> {
+  const globalData = await fetchGlobalData();
 
-export default function RootLayout({
+  // Default fallback values if API fails
+  const fallbackTitle = "Six and Fours | Sports News and Updates";
+  const fallbackDescription =
+    "Six and Fours provides the latest sports news, trending stories, and in-depth articles.";
+  const fallbackUrl = "https://sixandfours.com";
+
+  // Extract data from API response or use fallbacks
+  const siteTitle = globalData?.data?.defaultSeo?.metaTitle || fallbackTitle;
+  const siteDescription =
+    globalData?.data?.defaultSeo?.metaDescription || fallbackDescription;
+  const siteName = globalData?.data?.siteName || "Six and Fours";
+  const faviconUrl = globalData?.data?.favicon?.url || "/favicon.ico";
+
+  return {
+    metadataBase: new URL(fallbackUrl),
+    title: {
+      template: `%s | ${siteName}`,
+      default: siteTitle,
+    },
+    description: siteDescription,
+    icons: {
+      icon: faviconUrl,
+      apple: "/apple-icon.png", // Fallback or you can add this to Strapi too
+    },
+    openGraph: {
+      title: siteTitle,
+      description: siteDescription,
+      siteName: siteName,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteTitle,
+      description: siteDescription,
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch global data for the header and footer
+  const globalData = await fetchGlobalData();
+
+  // Extract site name with fallback
+  const siteName = globalData?.data?.siteName || "Six and Fours";
+
+  // Extract and transform navigation items
+  const navItems = extractNavItems(globalData);
+
+  // Extract social links for footer
+  const socialLinks = extractSocialLinks(globalData);
+
   return (
     <html lang="en">
       <body
-        className={`${sairaExtraCondensed.variable} ${roboto.variable} ${notoSansOldSogdian.variable} ${sairaCondensed.variable} ${dmSans.variable}`}
+        className={`${sairaExtraCondensed.variable} ${roboto.variable} ${notoSansOldSogdian.variable} ${sairaCondensed.variable} ${dmSans.variable} flex flex-col min-h-screen bg-[#121212]`}
       >
-        <HeaderV1 />
-        <main>{children}</main>
-        <FooterV1 />
+        <Header navItems={navItems} siteName={siteName} />
+        <main className="flex-1">{children}</main>
+        <Footer socialLinks={socialLinks} />
       </body>
     </html>
   );

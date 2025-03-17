@@ -4,8 +4,7 @@ import type React from "react";
 import BlogCard from "./BlogCard";
 import { motion } from "framer-motion";
 
-interface SliderPostsProps {
-  heading: string;
+interface PostListProps {
   posts?: {
     date: string;
     title: string;
@@ -17,8 +16,7 @@ interface SliderPostsProps {
   }[];
 }
 
-const SliderPosts: React.FC<SliderPostsProps> = ({
-  heading,
+const PostList: React.FC<PostListProps> = ({
   posts = [
     {
       featuredImage: "/images/a2133d2051ea3e3a6a557b092072c912.jpeg",
@@ -116,4 +114,4 @@ const SliderPosts: React.FC<SliderPostsProps> = ({
   );
 };
 
-export default SliderPosts;
+export default PostList;
