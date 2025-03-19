@@ -1,3 +1,9 @@
+import {
+  fetchGlobalData,
+  extractNavItems,
+  extractOgImageUrl,
+  extractSocialLinks,
+} from "@/lib/api";
 import "./globals.css";
 import {
   Roboto,
@@ -10,12 +16,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  fetchGlobalData,
-  extractNavItems,
-  extractSocialLinks,
-  extractOgImageUrl,
-} from "@/lib/api";
 
 const sairaExtraCondensed = Saira_Extra_Condensed({
   display: "swap",

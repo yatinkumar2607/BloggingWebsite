@@ -1,36 +1,7 @@
-import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import SectionWrapper from "@/components/SectionWrapper";
 import FullWidthSlider from "@/components/FullWidthSlider";
 import SectionWrapperV2 from "@/components/SectionWrapperV2";
-
-// export const metadata: Metadata = {
-//   title: "Six and Fours | Sports News and Updates",
-//   description:
-//     "Get the latest sports news, trending stories, recent updates, and top articles from Six and Fours.",
-//   keywords: ["sports", "cycling", "news", "articles"],
-//   openGraph: {
-//     title: "Six and Fours | Sports News and Updates",
-//     description:
-//       "Get the latest sports news, trending stories, recent updates, and top articles from Six and Fours.",
-//     images: [
-//       {
-//         url: "/images/og-image.jpg",
-//         width: 1200,
-//         height: 630,
-//         alt: "Six and Fours",
-//       },
-//     ],
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Six and Fours | Sports News and Updates",
-//     description:
-//       "Get the latest sports news, trending stories, recent updates, and top articles from Six and Fours.",
-//     images: ["/images/twitter-image.jpg"],
-//   },
-// };
 
 const posts = [
   {
