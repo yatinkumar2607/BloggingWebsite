@@ -2,7 +2,15 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const ArticleTitle = () => {
+interface ArticleTitleProps {
+  title: string;
+  image: string;
+}
+
+const ArticleTitle = ({
+  title = "Schedule out for cricket world cup 2023. First match to be played at Ahmedabad",
+  image = "/images/97b0599555bd228d78a2264e0c13e321.jpeg",
+}: ArticleTitleProps) => {
   return (
     <section className="section">
       <div className="max-w-7xl mx-auto w-full relative px-5 sm:px-6 md:px-8 lg:px-10 pt-[66px] sm:pt-[72px] md:pt-[88px] lg:pt-[100px] xl:pt-[113px] pb-[15px] sm:pb-[20px] md:pb-[30px] lg:pb-[40px] xl:pb-[68px] text-[#d9d9d9]">
@@ -17,22 +25,7 @@ const ArticleTitle = () => {
             }}
           >
             {/* Split text into words for word-by-word animation */}
-            {[
-              "Schedule",
-              "out",
-              "for",
-              "cricket",
-              "world",
-              "cup",
-              "2023.",
-              "First",
-              "match",
-              "to",
-              "be",
-              "played",
-              "at",
-              "Ahmedabad",
-            ].map((word, index) => (
+            {title.split(" ").map((word, index) => (
               <motion.span
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -50,7 +43,7 @@ const ArticleTitle = () => {
           </motion.h1>
 
           <motion.div
-            className="relative max-w-[350px] sm:max-w-[692px] w-full h-[216px] sm:h-[461px] rounded-[10px] overflow-hidden "
+            className="relative max-w-[350px] sm:max-w-[692px] w-full h-[216px] sm:h-[461px] rounded-[10px] overflow-hidden"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{
@@ -70,8 +63,8 @@ const ArticleTitle = () => {
               className="w-full h-full"
             >
               <Image
-                src="/images/97b0599555bd228d78a2264e0c13e321.jpeg"
-                alt="feature-image"
+                src={image || "/placeholder.svg"}
+                alt={title}
                 fill
                 className="object-cover"
               />

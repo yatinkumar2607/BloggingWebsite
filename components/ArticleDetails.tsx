@@ -1,54 +1,109 @@
-import React from "react";
-import { Avatar } from "./ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
+"use client";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
-const ArticleDetails = () => {
+interface ArticleDetailsProps {
+  article: any; // Using any for now, but you can define a more specific type
+}
+
+const ArticleDetails = ({ article }: ArticleDetailsProps) => {
+  // Format the date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  // Extract content from blocks if available
+  const getContent = () => {
+    if (article.blocks && article.blocks.length > 0) {
+      return article.blocks
+        .filter((block: any) => block.__component === "shared.rich-text")
+        .map((block: any) => block.body)
+        .join("\n\n");
+    }
+    return article.description || "No content available for this article.";
+  };
+
   return (
-    <section className="section">
-      <div className="max-w-7xl w-full mx-auto px-5 sm:px-6 md:px-8 lg:px-10 py-5 sm:py-6 md:py-8 lg:py-10 xl:py-11">
-        <div className="flex items-center space-x-2 justify-between">
-          <span className="flex items-center space-x-[6.45px]">
-            <Avatar className="h-5 w-5">
-              <AvatarImage
-                src="/images/72b5e4c814f22287e66c59eabba5ba77.jpeg"
-                alt="author-avatar"
-                className="object-cover object-top"
-                width={20}
-                height={20}
-              />
-              {/* <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
-              {initials}
-            </AvatarFallback> */}
-            </Avatar>
-            <span className="font-noto-sans font-normal text-[12px] leading-[12px] text-[#b6b6b6]">
-              Jesica koli
-            </span>
+    <section className="max-w-7xl mx-auto px-5 sm:px-6 md:px-8 lg:px-10 py-8 text-[#d9d9d9]">
+      <motion.div
+        className="space-y-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Article metadata */}
+        <div className="flex items-center space-x-4">
+          {article.author && (
+            <div className="flex items-center space-x-2">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                <Image
+                  src={
+                    article.author.avatar?.url ||
+                    "/placeholder.svg?height=40&width=40"
+                  }
+                  alt={article.author.name || "Author"}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-sm font-medium">{article.author.name}</span>
+            </div>
+          )}
+          <span className="text-sm text-gray-400">•</span>
+          <span className="text-sm text-gray-400">
+            {formatDate(article.publishedAt)}
           </span>
-          <span className="flex items-center space-x-[6.2px]">
-            <Image
-              src="/images/Group 3370.svg"
-              alt="calendar-icon"
-              width={11}
-              height={12}
-            />
-            <span className="font-noto-sans font-normal text-[12px] leading-[12px] text-[#b6b6b6]">
-              02 december 2022
-            </span>
-          </span>
-          <span className="flex items-center space-x-[6.2px]">
-            <Image
-              src="/images/Group 3349.svg"
-              alt="calendar-icon"
-              width={11}
-              height={12}
-            />
-            <span className="font-noto-sans font-normal text-[12px] leading-[12px] text-[#b6b6b6]">
-              3 min. to read
-            </span>
-          </span>
+
+          {article.category && (
+            <>
+              <span className="text-sm text-gray-400">•</span>
+              <span className="text-sm text-blue-400">
+                {article.category.name}
+              </span>
+            </>
+          )}
         </div>
-      </div>
+
+        {/* Article content */}
+        <motion.div
+          className="prose prose-lg prose-invert max-w-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {getContent()
+            .split("\n")
+            .map((paragraph: string, index: number) => (
+              <p key={index} className="mb-4">
+                {paragraph}
+              </p>
+            ))}
+        </motion.div>
+
+        {/* Tags if available */}
+        {article.tags && article.tags.length > 0 && (
+          <motion.div
+            className="flex flex-wrap gap-2 mt-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            {article.tags.map((tag: any) => (
+              <span
+                key={tag.id}
+                className="px-3 py-1 bg-gray-800 rounded-full text-sm"
+              >
+                {tag.name}
+              </span>
+            ))}
+          </motion.div>
+        )}
+      </motion.div>
     </section>
   );
 };

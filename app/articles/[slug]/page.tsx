@@ -42,8 +42,8 @@ export default async function ArticlePage({
 
   return (
     <>
-      <ArticleTitle />
-      <ArticleDetails />
+      {/* <ArticleTitle  /> */}
+      {/* <ArticleDetails /> */}
     </>
   );
 }
