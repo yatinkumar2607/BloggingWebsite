@@ -1,3 +1,5 @@
+import ArticleDetails from "@/components/ArticleDetails";
+import ArticleTitle from "@/components/ArticleTitle";
 import type { Metadata } from "next";
 
 // This function tells Next.js which routes to generate at build time
@@ -40,10 +42,8 @@ export default async function ArticlePage({
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-4">Article: {slug}</h1>
-      <div className="prose">
-        <p>This is the content for {slug}</p>
-      </div>
+      <ArticleTitle />
+      <ArticleDetails />
     </>
   );
 }
