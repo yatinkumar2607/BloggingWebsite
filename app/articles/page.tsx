@@ -3,7 +3,6 @@ import SectionHeading from "@/components/SectionHeading";
 import ArticlesContainer from "@/components/ArticlesContainer";
 import type { Metadata } from "next";
 
-// Generate static metadata for the articles page
 export const metadata: Metadata = {
   title: "Articles",
   description: "Browse our collection of articles on sports, news, and more.",

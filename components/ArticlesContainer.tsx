@@ -7,21 +7,21 @@ import ArticleGrid from "@/components/ArticlesGrid";
 interface Article {
   id: number;
   title: string;
-  description: string;
   slug: string;
   date: string;
   image: string;
   author: string;
-  authorImage: string;
   category: string;
+  description: string;
+  authorImage: string;
   blocksContent?: string;
 }
 
 interface Pagination {
   page: number;
+  total: number;
   pageSize: number;
   pageCount: number;
-  total: number;
 }
 
 export default function ArticlesContainer() {
@@ -36,7 +36,6 @@ export default function ArticlesContainer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Get the current page from search params
   const pageParam = searchParams.get("page");
   const currentPage = pageParam ? Number.parseInt(pageParam, 10) : 1;
 
@@ -54,7 +53,6 @@ export default function ArticlesContainer() {
 
         const data = await response.json();
 
-        // Format the articles for the grid
         const formattedArticles = data.data.map((article: any) => {
           const blocksContent =
             article.blocks
