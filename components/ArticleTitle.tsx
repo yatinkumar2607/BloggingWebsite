@@ -50,7 +50,7 @@ const ArticleTitle = () => {
           </motion.h1>
 
           <motion.div
-            className="relative max-w-[350px] sm:max-w-[692px] w-full h-[216px] sm:h-[461px] rounded-[10px] overflow-hidden"
+            className="relative max-w-[350px] sm:max-w-[692px] w-full h-[216px] sm:h-[461px] rounded-[10px] overflow-hidden "
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{
