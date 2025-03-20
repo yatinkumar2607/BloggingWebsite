@@ -15,7 +15,7 @@ const posts = [
     date: "Agence France-Presse - 04 June 2023",
     image: "/images/08e1a7e3ae559ddf8fac2dd016a414b4.jpeg",
     title:
-      "Lionel Messi Leaving Ligue 1 Team Paris Saint-Germain, Club Confirms",
+      "Lionel Messi Leaving Ligue 2 Team Paris Saint-Germain, Club Confirms",
   },
 ];
 
