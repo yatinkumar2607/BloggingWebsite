@@ -5,6 +5,8 @@ import type React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface ArticleGridProps {
   articles: {
@@ -26,13 +28,48 @@ interface ArticleGridProps {
     pageCount: number;
   };
   currentPage: number;
+  currentPath?: string;
+  categorySlug?: string;
+  categoryName?: string;
+  paginationUrlParam?: string;
+  context?: "main" | "similar";
 }
 
 const ArticleGrid: React.FC<ArticleGridProps> = ({
   articles,
   pagination,
   currentPage,
+  paginationUrlParam = "page",
+  currentPath = "",
+  context = "main",
+  categorySlug = "",
+  categoryName = "",
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  const getDisplayArticles = () => {
+    if (context === "main") {
+      return isMobile ? articles.slice(0, 6) : articles;
+    } else {
+      return isMobile ? articles.slice(0, 3) : articles.slice(0, 6);
+    }
+  };
+
+  const displayArticles = getDisplayArticles();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -73,6 +110,98 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
     });
   };
 
+  const createPaginationUrl = (page: number) => {
+    if (currentPath) {
+      return `${currentPath}?${paginationUrlParam}=${page}`;
+    }
+    return `/articles?${paginationUrlParam}=${page}`;
+  };
+
+  const renderSimilarArticlesNavigation = () => {
+    if (context !== "similar") return null;
+
+    const viewAllUrl = categorySlug
+      ? `/articles/category/${categorySlug}`
+      : "/articles";
+    const buttonText = categorySlug
+      ? `View All ${categoryName} Articles`
+      : "View All Articles";
+
+    return (
+      <div className="flex flex-col justify-center">
+        {categorySlug && (
+          <Link
+            href={viewAllUrl}
+            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-center"
+          >
+            {buttonText}
+          </Link>
+        )}
+        <Link
+          href="/articles"
+          className="px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors text-center"
+        >
+          View All Articles
+        </Link>
+      </div>
+    );
+  };
+
+  const renderPagination = () => {
+    if (context === "main" && pagination.pageCount > 1) {
+      return (
+        <div className="flex justify-center items-center space-x-2 pt-8">
+          <Link
+            href={createPaginationUrl(Math.max(1, currentPage - 1))}
+            className={`p-2 rounded-md ${
+              currentPage <= 1
+                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                : "bg-gray-800 text-white hover:bg-gray-700"
+            }`}
+            aria-disabled={currentPage <= 1}
+            tabIndex={currentPage <= 1 ? -1 : undefined}
+          >
+            <ChevronLeft size={20} />
+          </Link>
+
+          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
+            (page) => (
+              <Link
+                key={page}
+                href={createPaginationUrl(page)}
+                className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                  currentPage === page
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-800 text-white hover:bg-gray-700"
+                }`}
+                aria-current={currentPage === page ? "page" : undefined}
+              >
+                {page}
+              </Link>
+            )
+          )}
+
+          <Link
+            href={createPaginationUrl(
+              Math.min(pagination.pageCount, currentPage + 1)
+            )}
+            className={`p-2 rounded-md ${
+              currentPage >= pagination.pageCount
+                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                : "bg-gray-800 text-white hover:bg-gray-700"
+            }`}
+            aria-disabled={currentPage >= pagination.pageCount}
+            tabIndex={currentPage >= pagination.pageCount ? -1 : undefined}
+          >
+            <ChevronRight size={20} />
+          </Link>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   if (articles.length === 0) {
     return (
       <motion.div
@@ -89,14 +218,13 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
 
   return (
     <div className="space-y-10">
-      {/* <pre className="text-white">{JSON.stringify(articles, null, 2)}</pre> */}
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-[24px] xl:gap-x-[26px] xl:gap-y-[30px]"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {articles.map((article) => (
+        {displayArticles.map((article) => (
           <motion.div
             key={article.id}
             variants={itemVariants}
@@ -115,69 +243,69 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
                   />
                 </div>
                 <div className="flex-1 flex flex-col space-y-[18px]">
-                  <div className="flex items-center justify-between text-[12px] md:text-[14px] leading-[12px] md:leading-[14px] text-[#b6b6b6]">
-                    <div className="max-w-[45%] w-full flex sm:flex-1 items-center space-x-[6.4px]">
-                      <div className="relative w-5 md:w-6 h-5 md:h-6 rounded-full overflow-hidden">
-                        <Image
-                          src={article.authorImage || "/placeholder.svg"}
-                          alt={article.author}
-                          fill
-                          className="object-cover"
-                          sizes="20px"
-                        />
+                  <div className="flex items-center justify-between text-[12px] leading-[12px] text-[#b6b6b6]">
+                    <div className="flex sm:flex-1 items-center space-x-[6.4px]">
+                      <div className="relative w-5 h-5 rounded-full overflow-hidden">
+                        <Avatar className="h-5 w-5">
+                          <AvatarImage
+                            src={article.authorImage}
+                            alt={`${article.author} avatar`}
+                          />
+                          <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
+                            {article.author.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
                       </div>
-                      <span className="font-noto-sans font-normal text-[12px] md:text-[14px] leading-[12px] md:leading-[14px]">
+                      <span className="font-noto-sans font-normal text-[12px] leading-[12px]">
                         {article.author}
                       </span>
                     </div>
-                    <div className="flex flex-1 flex-wrap gap-1 items-center justify-between text-right">
-                      <div className="flex items-center justify-end w-full space-x-[6.2px]">
-                        <svg
-                          className="inline-block w-[11px] h-[12px]"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <rect
-                            x="3"
-                            y="4"
-                            width="18"
-                            height="18"
-                            rx="2"
-                            ry="2"
-                          ></rect>
-                          <line x1="16" y1="2" x2="16" y2="6"></line>
-                          <line x1="8" y1="2" x2="8" y2="6"></line>
-                          <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        <span>{formatDate(article.date)}</span>
-                      </div>
-                      <div className="flex items-center justify-end w-full space-x-[6.2px] text-right">
-                        <svg
-                          className="inline-block w-3 h-3"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        <span>
-                          {calculateReadingTime(
-                            article.blocksContent || article.description
-                          )}
-                        </span>
-                      </div>
+                    <div className="flex items-center space-x-[6.2px]">
+                      <svg
+                        className="inline-block w-[11px] h-[12px]"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect
+                          x="3"
+                          y="4"
+                          width="18"
+                          height="18"
+                          rx="2"
+                          ry="2"
+                        ></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                      <span>{formatDate(article.date)}</span>
+                    </div>
+                    <div className="flex sm:hidden items-center space-x-[6.2px]">
+                      <svg
+                        className="inline-block w-3 h-3"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <span>
+                        {calculateReadingTime(
+                          article.blocksContent || article.description
+                        )}
+                      </span>
                     </div>
                   </div>
                   <div className="flex-1 font-nato-sans font-normal text-[14px] leading-[22px] text-[#9e9e9e] space-y-[13px]">
-                    <h3 className="font-noto-sans font-semibold text-[18px] md:text-[20px] leading-[24px] text-[#d9d9d9]">
+                    <h3 className="font-noto-sans font-semibold text-[18px] leading-[24px] text-[#d9d9d9]">
                       {article.title}
                     </h3>
                     <p>{article.description}</p>
@@ -193,53 +321,10 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
           </motion.div>
         ))}
       </motion.div>
-      {pagination.pageCount > 1 && (
-        <div className="flex justify-center items-center space-x-2 pt-8">
-          <Link
-            href={`/articles?page=${Math.max(1, currentPage - 1)}`}
-            className={`p-2 rounded-md ${
-              currentPage <= 1
-                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                : "bg-gray-800 text-white hover:bg-gray-700"
-            }`}
-            aria-disabled={currentPage <= 1}
-            tabIndex={currentPage <= 1 ? -1 : undefined}
-          >
-            <ChevronLeft size={20} />
-          </Link>
-          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
-            (page) => (
-              <Link
-                key={page}
-                href={`/articles?page=${page}`}
-                className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-white hover:bg-gray-700"
-                }`}
-                aria-current={currentPage === page ? "page" : undefined}
-              >
-                {page}
-              </Link>
-            )
-          )}
-          <Link
-            href={`/articles?page=${Math.min(
-              pagination.pageCount,
-              currentPage + 1
-            )}`}
-            className={`p-2 rounded-md ${
-              currentPage >= pagination.pageCount
-                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                : "bg-gray-800 text-white hover:bg-gray-700"
-            }`}
-            aria-disabled={currentPage >= pagination.pageCount}
-            tabIndex={currentPage >= pagination.pageCount ? -1 : undefined}
-          >
-            <ChevronRight size={20} />
-          </Link>
-        </div>
-      )}
+
+      {context === "main"
+        ? renderPagination()
+        : renderSimilarArticlesNavigation()}
     </div>
   );
 };

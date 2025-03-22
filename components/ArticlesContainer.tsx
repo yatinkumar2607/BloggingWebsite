@@ -7,21 +7,21 @@ import ArticleGrid from "@/components/ArticlesGrid";
 interface Article {
   id: number;
   title: string;
+  description: string;
   slug: string;
   date: string;
   image: string;
   author: string;
-  category: string;
-  description: string;
   authorImage: string;
+  category: string;
   blocksContent?: string;
 }
 
 interface Pagination {
   page: number;
-  total: number;
   pageSize: number;
   pageCount: number;
+  total: number;
 }
 
 export default function ArticlesContainer() {
@@ -35,7 +35,23 @@ export default function ArticlesContainer() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  // Get the current page from search params
   const pageParam = searchParams.get("page");
   const currentPage = pageParam ? Number.parseInt(pageParam, 10) : 1;
 
@@ -43,8 +59,11 @@ export default function ArticlesContainer() {
     async function fetchArticles() {
       try {
         setLoading(true);
+        // Use different page sizes based on device
+        const pageSize = isMobile ? 6 : 12;
+
         const response = await fetch(
-          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?pagination[page]=${currentPage}&pagination[pageSize]=12&populate=*`
+          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
         );
 
         if (!response.ok) {
@@ -53,6 +72,7 @@ export default function ArticlesContainer() {
 
         const data = await response.json();
 
+        // Format the articles for the grid
         const formattedArticles = data.data.map((article: any) => {
           const blocksContent =
             article.blocks
@@ -91,7 +111,7 @@ export default function ArticlesContainer() {
     }
 
     fetchArticles();
-  }, [currentPage]);
+  }, [currentPage, isMobile]);
 
   if (error) {
     return (
@@ -118,6 +138,7 @@ export default function ArticlesContainer() {
       articles={articles}
       pagination={pagination}
       currentPage={currentPage}
+      context="main"
     />
   );
 }

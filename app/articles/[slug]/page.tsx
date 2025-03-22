@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import ArticleDetail from "@/components/ArticleDetail";
+import SimilarArticles from "@/components/SimilarArticles";
 
 async function getAllArticleSlugs() {
   try {
@@ -32,7 +33,9 @@ async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
       `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
-      { next: { revalidate: 3600 } }
+      {
+        next: { revalidate: 3600 },
+      }
     );
 
     if (!response.ok) {
@@ -103,18 +106,14 @@ export default function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   return (
-    <div className="bg-[#121212] pb-16">
-      <div className="max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-10 pt-[8px] space-y-6">
-        <Suspense
-          fallback={
-            <div className="text-white text-center py-20">
-              Loading article...
-            </div>
-          }
-        >
-          <ArticlePageContent params={params} />
-        </Suspense>
-      </div>
+    <div className="max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-10 pt-[8px] space-y-[66px]">
+      <Suspense
+        fallback={
+          <div className="text-white text-center py-20">Loading article...</div>
+        }
+      >
+        <ArticlePageContent params={params} />
+      </Suspense>
     </div>
   );
 }
@@ -144,5 +143,21 @@ async function ArticlePageContent({
     );
   }
 
-  return <ArticleDetail article={article} />;
+  // Extract category slug, article ID, and article slug for similar articles
+  const categorySlug = article.category?.slug || null;
+  const categoryName = article.category?.name || null;
+  const articleId = article.id || null;
+  const articleSlug = article.slug || null;
+
+  return (
+    <>
+      <ArticleDetail article={article} />
+      <SimilarArticles
+        categorySlug={categorySlug}
+        categoryName={categoryName}
+        currentArticleId={articleId}
+        currentArticleSlug={articleSlug}
+      />
+    </>
+  );
 }

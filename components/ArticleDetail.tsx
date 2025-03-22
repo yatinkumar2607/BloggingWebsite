@@ -2,27 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { calculateReadingTime, formatDate } from "@/lib/utils";
 
 interface ArticleDetailProps {
   article: any;
 }
-
-const calculateReadingTime = (content: string | undefined) => {
-  if (!content) return "1 Min. To Read";
-
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.max(1, Math.ceil(words / 200));
-  return `${minutes} Min. To Read`;
-};
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-};
 
 export default function ArticleDetail({ article }: ArticleDetailProps) {
   if (!article) {
@@ -30,8 +14,8 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
   }
 
   const publishedDate = article.publishedAt
-    ? formatDate(article.publishedAt)
-    : formatDate(article.createdAt);
+    ? formatDate(article.publishedAt, "2-digit")
+    : formatDate(article.createdAt, "2-digit");
 
   const articleContent = article.blocks
     ?.filter((block: any) => block.__component === "shared.rich-text")
@@ -133,7 +117,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                   </svg>
-                  <span>{formatDate(article.createdAt)}</span>
+                  <span>{formatDate(article.createdAt, "numeric")}</span>
                 </div>
                 <div className="flex items-center justify-end w-full space-x-[6.2px] text-right">
                   <svg
@@ -157,13 +141,13 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
               </div>
             </div>
           </div>
-          <div className="prose prose-lg prose-invert max-w-none">
+          <div className="prose prose-lg prose-invert max-w-none space-y-6">
             {articleContent
               .split("\n\n")
               .map((paragraph: string, index: number) => (
                 <motion.p
                   key={index}
-                  className="mb-6 font-nato-sans font-normal text-[14px] leading-[28px]"
+                  className="font-nato-sans font-normal text-[14px] leading-[28px]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
