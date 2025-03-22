@@ -4,7 +4,7 @@ import ArticlesContainer from "@/components/ArticlesContainer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Articles | Six a",
+  title: "Articles",
   description: "Browse our collection of articles on sports, news, and more.",
   openGraph: {
     title: "Articles",

@@ -89,6 +89,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
 
   return (
     <div className="space-y-10">
+      {/* <pre className="text-white">{JSON.stringify(articles, null, 2)}</pre> */}
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-[24px] xl:gap-x-[26px] xl:gap-y-[30px]"
         variants={containerVariants}
