@@ -106,7 +106,7 @@ export default function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   return (
-    <div className="max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-10 pt-[8px] space-y-[66px]">
+    <div className="max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-10 pt-[20px] xl:pt-[25px] space-y-[66px] xl:space-y-[80px]">
       <Suspense
         fallback={
           <div className="text-white text-center py-20">Loading article...</div>
