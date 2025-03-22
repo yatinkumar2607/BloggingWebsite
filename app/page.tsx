@@ -96,7 +96,6 @@ interface ApiResponse {
   };
 }
 
-// Function to format date from ISO string
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
@@ -106,7 +105,6 @@ function formatDate(dateString: string): string {
   });
 }
 
-// Fetch trending articles from the API
 async function getTrendingArticles() {
   try {
     const response = await fetch(

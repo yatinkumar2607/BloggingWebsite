@@ -112,8 +112,8 @@ export async function fetchGlobalData(): Promise<StrapiGlobalData | null> {
 export function getFallbackNavigation(): NavItem[] {
   return [
     { label: "Home", href: "/" },
-    { label: "Trending", href: "/trending" },
-    { label: "Recent", href: "/recent" },
+    { label: "Trending", href: "/articles/trending" },
+    { label: "Recent", href: "/articles/recent" },
     { label: "Articles", href: "/articles" },
     { label: "About", href: "/about" },
   ]

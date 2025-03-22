@@ -52,33 +52,27 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-// Generate dynamic metadata
 export async function generateMetadata(): Promise<Metadata> {
   const globalData = await fetchGlobalData();
 
-  // Default fallback values if API fails
   const fallbackTitle = "Six and Fours | Sports News and Updates";
   const fallbackDescription =
     "Six and Fours provides the latest sports news, trending stories, and in-depth articles.";
   const fallbackUrl = "https://sixandfours.com";
-  const fallbackOgImage = "/images/og-image.jpg"; // Fallback OG image path
+  const fallbackOgImage = "/images/og-image.jpg";
 
-  // Extract data from API response or use fallbacks
   const siteTitle = globalData?.data?.defaultSeo?.metaTitle || fallbackTitle;
   const siteDescription =
     globalData?.data?.defaultSeo?.metaDescription || fallbackDescription;
   const siteName = globalData?.data?.siteName || "Six and Fours";
   const faviconUrl = globalData?.data?.favicon?.url || "/favicon.ico";
 
-  // Extract OG image URL using the helper function
   const ogImageUrl = extractOgImageUrl(globalData) || fallbackOgImage;
 
-  // Ensure the OG image URL is absolute
   const absoluteOgImageUrl = ogImageUrl.startsWith("http")
     ? ogImageUrl
     : `${fallbackUrl}${ogImageUrl}`;
 
-  // Get image dimensions if available
   const ogImageWidth =
     globalData?.data?.defaultSeo?.shareImage?.formats?.large?.width || 1000;
   const ogImageHeight =
@@ -93,7 +87,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: siteDescription,
     icons: {
       icon: faviconUrl,
-      apple: "/apple-icon.png", // Fallback or you can add this to Strapi too
+      apple: faviconUrl,
     },
     openGraph: {
       title: siteTitle,
@@ -123,16 +117,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetch global data for the header and footer
   const globalData = await fetchGlobalData();
 
-  // Extract site name with fallback
   const siteName = globalData?.data?.siteName || "Six and Fours";
 
-  // Extract and transform navigation items
   const navItems = extractNavItems(globalData);
 
-  // Extract social links for footer
   const socialLinks = extractSocialLinks(globalData);
 
   return (
