@@ -143,7 +143,6 @@ async function ArticlePageContent({
     );
   }
 
-  // Extract category slug, article ID, and article slug for similar articles
   const categorySlug = article.category?.slug || null;
   const categoryName = article.category?.name || null;
   const articleId = article.id || null;

@@ -59,7 +59,7 @@ export default function ArticlesContainer() {
     async function fetchArticles() {
       try {
         setLoading(true);
-        // Use different page sizes based on device
+
         const pageSize = isMobile ? 6 : 12;
 
         const response = await fetch(
@@ -72,7 +72,6 @@ export default function ArticlesContainer() {
 
         const data = await response.json();
 
-        // Format the articles for the grid
         const formattedArticles = data.data.map((article: any) => {
           const blocksContent =
             article.blocks
@@ -85,7 +84,7 @@ export default function ArticlesContainer() {
             title: article.title,
             description: article.description || "",
             slug: article.slug,
-            date: article.publishedAt,
+            date: article.createdAt,
             image:
               article.cover?.formats?.medium?.url ||
               article.cover?.url ||
