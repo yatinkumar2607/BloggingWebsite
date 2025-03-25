@@ -1,7 +1,7 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import ArticlesContainer from "@/components/ArticlesContainer";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Articles",

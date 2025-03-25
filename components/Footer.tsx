@@ -208,14 +208,14 @@ export default function Footer({ socialLinks }: FooterProps) {
                   placeholder="aree99@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-[#303030] border-white rounded-s-sm rounded-e-none py-[7.5px] sm:py-[8px] pl-[6px] sm:pl-[10px] text-[12px] sm:text-[16px] md:text-[18px] lg:text-[21px] leading-[16px] sm:leading-[20px] md:leading-[22px] lg:leading-[28px] h-[31px] sm:h-[38px] md:h-[42px] lg:h-[58px]"
+                  className="bg-[#303030] border-white rounded-s-sm rounded-e-none py-[7.5px] sm:py-[8px] pl-[6px] sm:pl-[10px] text-[12px] sm:text-[16px] md:text-[18px] lg:text-[21px] leading-[16px] sm:leading-[20px] md:leading-[22px] lg:leading-[28px] h-[31px] sm:h-[38px] md:h-[42px] lg:h-[58px] text-white/75 focus-visible:ring-offset-0 focus-visible:ring-0"
                   required
                 />
                 <motion.button
                   type="submit"
-                  className="bg-white rounded-e-sm hover:bg-zinc-200 w-[31px] sm:w-[38px] md:w-[42px] lg:w-[85px] h-[31px] sm:h-[38px] md:h-[42px] lg:h-[58px] flex items-center justify-center"
+                  className="bg-white rounded-e-sm hover:bg-zinc-200 w-[31px] sm:w-[38px] md:w-[42px] lg:w-[85px] h-[31px] sm:h-[38px] md:h-[42px] lg:h-[58px] flex items-center justify-center focus:ring-offset-0"
                   variants={buttonVariants}
-                  whileHover="hover"
+                  // whileHover="hover"
                   whileTap="tap"
                 >
                   <MoveUpRight className="text-[#84878b] w-4 h-4" />

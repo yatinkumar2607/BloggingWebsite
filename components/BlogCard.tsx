@@ -52,9 +52,9 @@ export default function BlogCard({
             {authorName}
           </span>
         </div>
-        <div className="font-noto-sans font-normal text-[14px] text-[#ffffff]/60">
+        {/* <div className="font-noto-sans font-normal text-[14px] text-[#ffffff]/60">
           {date}
-        </div>
+        </div> */}
         <div className="space-y-[12px] text-[#9e9e9e] font-noto-sans text-[14px] leading-[22px] font-normal">
           <h3 className="text-[18px] leading-[24px] font-semibold text-[#d9d9d9] font-noto-sans">
             {title}
