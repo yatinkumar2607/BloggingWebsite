@@ -1,67 +1,19 @@
+// Alternative approach: Create a dynamic version of the page
+// This file would be used if you switch from static export to server rendering
+
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import ArticleDetail from "@/components/ArticleDetail";
 import SimilarArticles from "@/components/SimilarArticles";
 
-async function getAllArticleSlugs() {
-  try {
-    // First, get the total count of articles
-    const countResponse = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=id&pagination[pageSize]=1",
-      { next: { revalidate: 0 } } // Disable caching to always get fresh data
-    );
-
-    if (!countResponse.ok) {
-      throw new Error(`Failed to fetch article count: ${countResponse.status}`);
-    }
-
-    const countData = await countResponse.json();
-    const totalArticles = countData.meta.pagination.total;
-    const pageSize = 100; // Maximum page size
-    const totalPages = Math.ceil(totalArticles / pageSize);
-
-    // Fetch all articles across multiple pages if needed
-    let allSlugs: { slug: string }[] = [];
-
-    for (let page = 1; page <= totalPages; page++) {
-      const response = await fetch(
-        `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=slug&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-        { next: { revalidate: 0 } } // Disable caching
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch articles page ${page}: ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      const pageSlugs = data.data.map((article: any) => ({
-        slug: article.slug,
-      }));
-
-      allSlugs = [...allSlugs, ...pageSlugs];
-    }
-
-    console.log(`Generated paths for ${allSlugs.length} articles`);
-    return allSlugs;
-  } catch (error) {
-    console.error("Error fetching all article slugs:", error);
-    return [];
-  }
-}
-
-export async function generateStaticParams() {
-  const slugs = await getAllArticleSlugs();
-  return slugs;
-}
+// No need for generateStaticParams with dynamic rendering
 
 async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
       `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
       {
-        next: { revalidate: 0 }, // Disable caching
+        next: { revalidate: 60 }, // Revalidate every minute
       }
     );
 
@@ -79,9 +31,9 @@ async function getArticleBySlug(slug: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const article = await getArticleBySlug(slug);
 
   if (!article) {
@@ -127,11 +79,7 @@ export async function generateMetadata({
   };
 }
 
-export default function ArticlePage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default function ArticlePage({ params }: { params: { slug: string } }) {
   return (
     <div className="max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-10 pt-[8px] space-y-[66px]">
       <Suspense
@@ -145,12 +93,8 @@ export default function ArticlePage({
   );
 }
 
-async function ArticlePageContent({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+async function ArticlePageContent({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const article = await getArticleBySlug(slug);
 
   if (!article) {

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { calculateReadingTime, formatDate } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import SectionHeading from "./SectionHeading";
+import TrendingSidebar from "./TrendingSidebar";
 
 interface ArticleDetailProps {
   article: any;
@@ -60,19 +60,6 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
         ease: [0.22, 1, 0.36, 1],
       },
     },
-  };
-
-  const folderBlockVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: (custom: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        delay: 0.3 + custom * 0.1,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
   };
 
   const metadataVariants = {
@@ -248,184 +235,14 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                   ))}
               </div>
             </motion.div>
+
+            {/* Using the updated TrendingSidebar component with API fetching */}
             <motion.div
               className="flex flex-col sm:flex-row lg:flex-col lg:max-w-[35%] w-full space-x-0 sm:space-x-[25px] lg:space-x-0 space-y-[25px] sm:space-y-0 lg:space-y-[40px]"
               variants={sidebarVariants}
             >
-              <motion.div
-                className="flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px]"
-                variants={itemVariants}
-              >
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <SectionHeading heading="Trending" version="home-page" />
-                </motion.div>
-                <motion.div
-                  className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <div className="space-y-6 xl:space-y-10">
-                    <motion.div
-                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
-                      custom={0}
-                      variants={folderBlockVariants}
-                    >
-                      <div className="relative w-[70px] sm:w-[75px] lg:w-[80px] xl:w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                        <Image
-                          src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
-                          alt="Trending"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="space-y-[8px] xl:space-y-[12px]">
-                        <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                          #Pollar. 87 - 12 July 2023
-                        </span>
-                        <h4 className="font-semibold text-[14px] lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9]">
-                          Baku 2023 Taekwondo Championships
-                        </h4>
-                      </div>
-                    </motion.div>
-                    <motion.div
-                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
-                      custom={1}
-                      variants={folderBlockVariants}
-                    >
-                      <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                        <Image
-                          src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
-                          alt="Trending"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="space-y-[8px] xl:space-y-[12px]">
-                        <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                          #Pollar. 87 - 12 July 2023
-                        </span>
-                        <h4 className="font-semibold lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9]">
-                          Baku 2023 Taekwondo Championships
-                        </h4>
-                      </div>
-                    </motion.div>
-                    <motion.div
-                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
-                      custom={2}
-                      variants={folderBlockVariants}
-                    >
-                      <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                        <Image
-                          src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
-                          alt="Trending"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="space-y-[8px] xl:space-y-[12px]">
-                        <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                          #Pollar. 87 - 12 July 2023
-                        </span>
-                        <h4 className="font-semibold lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9]">
-                          Baku 2023 Taekwondo Championships
-                        </h4>
-                      </div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </motion.div>
-              <motion.div
-                className="flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px]"
-                variants={itemVariants}
-              >
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <SectionHeading heading="Trending" version="home-page" />
-                </motion.div>
-                <motion.div
-                  className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                >
-                  <div className="space-y-6 xl:space-y-10">
-                    <motion.div
-                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
-                      custom={3}
-                      variants={folderBlockVariants}
-                    >
-                      <div className="relative w-[70px] sm:w-[75px] lg:w-[80px] xl:w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                        <Image
-                          src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
-                          alt="Trending"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="space-y-[8px] xl:space-y-[12px]">
-                        <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                          #Pollar. 87 - 12 July 2023
-                        </span>
-                        <h4 className="font-semibold text-[14px] lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9]">
-                          Baku 2023 Taekwondo Championships
-                        </h4>
-                      </div>
-                    </motion.div>
-                    <motion.div
-                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
-                      custom={4}
-                      variants={folderBlockVariants}
-                    >
-                      <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                        <Image
-                          src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
-                          alt="Trending"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="space-y-[8px] xl:space-y-[12px]">
-                        <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                          #Pollar. 87 - 12 July 2023
-                        </span>
-                        <h4 className="font-semibold lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9]">
-                          Baku 2023 Taekwondo Championships
-                        </h4>
-                      </div>
-                    </motion.div>
-                    <motion.div
-                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
-                      custom={5}
-                      variants={folderBlockVariants}
-                    >
-                      <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                        <Image
-                          src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
-                          alt="Trending"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="space-y-[8px] xl:space-y-[12px]">
-                        <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                          #Pollar. 87 - 12 July 2023
-                        </span>
-                        <h4 className="font-semibold lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9]">
-                          Baku 2023 Taekwondo Championships
-                        </h4>
-                      </div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </motion.div>
+              <TrendingSidebar category="trending" delay={0.3} />
+              <TrendingSidebar category="recent" delay={0.5} />
             </motion.div>
           </div>
         </div>
