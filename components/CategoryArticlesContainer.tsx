@@ -42,6 +42,7 @@ export default function CategoryArticlesContainer({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Get the current page from search params
   const pageParam = searchParams.get("page");
   const currentPage = pageParam ? Number.parseInt(pageParam, 10) : 1;
 
@@ -49,6 +50,7 @@ export default function CategoryArticlesContainer({
     async function fetchArticles() {
       try {
         setLoading(true);
+        // Use category slug for filtering
         const response = await fetch(
           `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[updatedAt]=desc&pagination[page]=${currentPage}&pagination[pageSize]=12&populate=*`
         );
@@ -59,6 +61,7 @@ export default function CategoryArticlesContainer({
 
         const data = await response.json();
 
+        // Format the articles for the grid
         const formattedArticles = data.data.map((article: any) => {
           const blocksContent =
             article.blocks
@@ -77,8 +80,7 @@ export default function CategoryArticlesContainer({
               article.cover?.url ||
               "/placeholder.svg?height=400&width=600",
             author: article.author?.name || "Unknown Author",
-            authorImage:
-              article.author?.avatar?.url || "/images/unsplash_B5PLtlpR7YA.png",
+            authorImage: article.author?.avatar?.url || null,
             category: article.category?.name || "Uncategorized",
             blocksContent: blocksContent,
           };

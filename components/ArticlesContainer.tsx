@@ -12,7 +12,7 @@ interface Article {
   date: string;
   image: string;
   author: string;
-  authorImage: string;
+  authorImage: string | null;
   category: string;
   blocksContent?: string;
 }
@@ -60,7 +60,7 @@ export default function ArticlesContainer() {
       try {
         setLoading(true);
 
-        const pageSize = isMobile ? 6 : 12;
+        const pageSize = isMobile ? 6 : 6;
 
         const response = await fetch(
           `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
@@ -90,8 +90,7 @@ export default function ArticlesContainer() {
               article.cover?.url ||
               "/placeholder.svg?height=400&width=600",
             author: article.author?.name || "Unknown Author",
-            authorImage:
-              article.author?.avatar?.url || "/images/unsplash_B5PLtlpR7YA.png",
+            authorImage: article.author?.avatar?.url || null,
             category: article.category?.name || "Uncategorized",
             blocksContent: blocksContent,
           };

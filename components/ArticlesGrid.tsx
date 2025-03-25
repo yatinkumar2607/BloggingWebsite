@@ -17,7 +17,7 @@ interface ArticleGridProps {
     title: string;
     author: string;
     category: string;
-    authorImage: string;
+    authorImage: string | null;
     description: string;
     blocksContent?: string;
   }[];
@@ -168,51 +168,53 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
   const renderPagination = () => {
     if (context === "main" && pagination.pageCount > 1) {
       return (
-        <div className="flex justify-center items-center space-x-2 pt-8">
-          <Link
-            href={createPaginationUrl(Math.max(1, currentPage - 1))}
-            className={`p-2 rounded-md ${
-              currentPage <= 1
-                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                : "bg-gray-800 text-white hover:bg-gray-700"
-            }`}
-            aria-disabled={currentPage <= 1}
-            tabIndex={currentPage <= 1 ? -1 : undefined}
-          >
-            <ChevronLeft size={20} />
-          </Link>
+        <div className="w-full bg-[#333333] py-4 mt-8">
+          <div className="flex justify-end items-center space-x-4">
+            <Link
+              href={createPaginationUrl(Math.max(1, currentPage - 1))}
+              className={`p-3 bg-[#444444] rounded-md ${
+                currentPage <= 1
+                  ? "text-gray-500 cursor-not-allowed"
+                  : "text-white hover:bg-[#555555]"
+              }`}
+              aria-disabled={currentPage <= 1}
+              tabIndex={currentPage <= 1 ? -1 : undefined}
+            >
+              <ChevronLeft size={20} />
+            </Link>
 
-          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
-            (page) => (
-              <Link
-                key={page}
-                href={createPaginationUrl(page)}
-                className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-white hover:bg-gray-700"
-                }`}
-                aria-current={currentPage === page ? "page" : undefined}
-              >
-                {page}
-              </Link>
-            )
-          )}
-
-          <Link
-            href={createPaginationUrl(
-              Math.min(pagination.pageCount, currentPage + 1)
+            {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
+              (page) => (
+                <Link
+                  key={page}
+                  href={createPaginationUrl(page)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-full ${
+                    currentPage === page
+                      ? "bg-black text-white"
+                      : "bg-transparent text-white hover:bg-[#555555]"
+                  }`}
+                  aria-current={currentPage === page ? "page" : undefined}
+                >
+                  {page}
+                </Link>
+              )
             )}
-            className={`p-2 rounded-md ${
-              currentPage >= pagination.pageCount
-                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                : "bg-gray-800 text-white hover:bg-gray-700"
-            }`}
-            aria-disabled={currentPage >= pagination.pageCount}
-            tabIndex={currentPage >= pagination.pageCount ? -1 : undefined}
-          >
-            <ChevronRight size={20} />
-          </Link>
+
+            <Link
+              href={createPaginationUrl(
+                Math.min(pagination.pageCount, currentPage + 1)
+              )}
+              className={`p-3 bg-[#444444] rounded-md ${
+                currentPage >= pagination.pageCount
+                  ? "text-gray-500 cursor-not-allowed"
+                  : "text-white hover:bg-[#555555]"
+              }`}
+              aria-disabled={currentPage >= pagination.pageCount}
+              tabIndex={currentPage >= pagination.pageCount ? -1 : undefined}
+            >
+              <ChevronRight size={20} />
+            </Link>
+          </div>
         </div>
       );
     }
@@ -235,7 +237,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-[100px]">
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-[26px]"
         variants={containerVariants}
@@ -286,7 +288,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
                       <div className="relative w-5 h-5 rounded-full overflow-hidden">
                         <Avatar className="h-5 w-5">
                           <AvatarImage
-                            src={article.authorImage}
+                            src={article.authorImage || ""}
                             alt={`${article.author} avatar`}
                           />
                           <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">

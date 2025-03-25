@@ -16,41 +16,14 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ posts = [] }: HeroSectionProps) {
-  // Default posts if none provided
-  const defaultPosts: Post[] = [
-    {
-      tag: "Technology",
-      date: "March 15, 2025",
-      image: "/placeholder.svg?height=600&width=1200",
-      title: "The Future of AI Development",
-    },
-    {
-      tag: "Design",
-      date: "March 14, 2025",
-      image: "/placeholder.svg?height=600&width=1200",
-      title: "Minimalism in Modern Web Design",
-    },
-    {
-      tag: "Business",
-      date: "March 13, 2025",
-      image: "/placeholder.svg?height=600&width=1200",
-      title: "Startup Funding Strategies for 2025",
-    },
-    {
-      tag: "Health",
-      date: "March 12, 2025",
-      image: "/placeholder.svg?height=600&width=1200",
-      title: "Wellness Tech Transforming Healthcare",
-    },
-    {
-      tag: "Travel",
-      date: "March 11, 2025",
-      image: "/placeholder.svg?height=600&width=1200",
-      title: "Remote Work Destinations for Digital Nomads",
-    },
-  ];
-
-  const allPosts = posts.length > 0 ? posts : defaultPosts;
+  // If no posts are provided, return null or a fallback UI
+  if (posts.length === 0) {
+    return (
+      <section className="relative min-h-[460px] lg:min-h-[500px] xl:min-h-[583px] overflow-hidden bg-[#121212] flex items-center justify-center">
+        <p className="text-[#d9d9d9] text-xl">No posts available</p>
+      </section>
+    );
+  }
 
   return (
     <section className="relative min-h-[460px] lg:min-h-[500px] xl:min-h-[583px] overflow-hidden bg-[#121212]">
@@ -87,11 +60,11 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
           }
         }
 
-        ${allPosts
+        ${posts
           .map(
             (_, index) => `
     .hero-slide:nth-child(${index + 1}) {
-      animation: crossfade ${allPosts.length * 8}s ease-in-out ${
+      animation: crossfade ${posts.length * 8}s ease-in-out ${
               index * 8
             }s infinite; /* Changed from 5s to 8s per slide for slower animation */
     }
@@ -100,7 +73,7 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
           .join("\n")}
       `}</style>
 
-      {allPosts.map((post, index) => (
+      {posts.map((post, index) => (
         <div key={index} className="hero-slide">
           <div className="absolute inset-0">
             <Image
@@ -129,7 +102,7 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
                 }}
               >
                 <motion.span
-                  className="font-roboto font-medium text-sm sm:text-base md:text-[18px] lg:text-[20px] text-[#d9d9d9] px-[16.85px] sm:px-[18px] py-[3.85px] border-[0.65px] border-[#d9d9d9]"
+                  className="font-roboto font-medium text-sm sm:text-base md:text-[18px] lg:text-[20px] text-[#d9d9d9] px-[16.85px] sm:px-[18px] py-[3.85px] border-[0.65px] border-[#d9d9d9] capitalize"
                   initial={{ scale: 0.9 }}
                   animate={{
                     scale: 1,
@@ -197,17 +170,6 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
           </div>
         </div>
       ))}
-
-      {/* Navigation dots
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-        {allPosts.map((_, index) => (
-          <div
-            key={index}
-            className="w-2 h-2 rounded-full bg-white/50"
-            aria-hidden="true"
-          />
-        ))}
-      </div> */}
     </section>
   );
 }
