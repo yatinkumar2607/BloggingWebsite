@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import type { NavItem } from "@/lib/api";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   siteName: string;
@@ -13,6 +14,50 @@ interface HeaderProps {
 
 export default function Header({ navItems, siteName }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close mobile menu when navigating
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  // Function to check if a link is active
+  const isLinkActive = (href: string): boolean => {
+    // Handle home page special case
+    if (href === "/" && pathname === "/") {
+      return true;
+    }
+
+    // Special case for category pages like /articles/category/trending
+    if (pathname.includes("/articles/category/")) {
+      // For category links, check exact match with the category slug
+      const categorySlug = pathname.split("/").pop(); // Get the last segment (the slug)
+
+      // If href is exactly the category slug, it's active
+      if (href === categorySlug) {
+        return true;
+      }
+
+      // If href is /articles and we're on a category page, it should not be active
+      if (href === "/articles") {
+        return false;
+      }
+    }
+
+    // For other pages, check if pathname starts with href
+    // But ensure we're matching complete segments to avoid partial matches
+    if (href !== "/") {
+      // Remove trailing slash from href if it exists
+      const normalizedHref = href.endsWith("/") ? href.slice(0, -1) : href;
+
+      // Check if pathname is exactly the href or starts with href followed by a slash
+      return (
+        pathname === normalizedHref || pathname.startsWith(`${normalizedHref}/`)
+      );
+    }
+
+    return false;
+  };
 
   return (
     <header className="fixed w-full backdrop-blur-[6.7px] bg-[#00000091] z-50">
@@ -22,6 +67,7 @@ export default function Header({ navItems, siteName }: HeaderProps) {
             <button
               className="lg:hidden rounded-md"
               onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6 text-[#d9d9d9]" />
@@ -41,7 +87,10 @@ export default function Header({ navItems, siteName }: HeaderProps) {
               {siteName}
             </Link>
           </div>
-          <button className="lg:hidden rounded-md hover:bg-white/10 focus:outline-none">
+          <button
+            className="lg:hidden rounded-md hover:bg-white/10 focus:outline-none"
+            aria-label="Search"
+          >
             <Image
               src="/images/Vector.svg"
               alt="search-icon"
@@ -54,7 +103,9 @@ export default function Header({ navItems, siteName }: HeaderProps) {
               <Link
                 key={label}
                 href={href}
-                className="font-noto-sans font-semibold text-[14px] leading-[38px] xl:text-[16px] xl:leading-[42px] text-white p-[8px] xl:p-[10px]"
+                className={`font-noto-sans font-semibold text-[14px] leading-[38px] xl:text-[16px] xl:leading-[42px] p-[8px] xl:p-[10px] ${
+                  isLinkActive(href) ? "text-white" : "text-white/60"
+                }`}
               >
                 {label}
               </Link>
@@ -67,8 +118,9 @@ export default function Header({ navItems, siteName }: HeaderProps) {
               <Link
                 key={label}
                 href={href}
-                className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-md text-base font-medium"
-                onClick={() => setIsMenuOpen(false)}
+                className={`font-noto-sans font-semibold text-[14px] leading-[38px] xl:text-[16px] xl:leading-[42px] p-[8px] xl:p-[10px] ${
+                  isLinkActive(href) ? "text-white" : "text-white/60"
+                }`}
               >
                 {label}
               </Link>

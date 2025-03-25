@@ -85,6 +85,34 @@ interface Article {
   blocks: Block[];
 }
 
+interface SliderArticle {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string | null;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  cover: Cover;
+  author: Author;
+  category: Category;
+  blocks: Block[];
+}
+
+interface SliderResponse {
+  data: {
+    id: number;
+    documentId: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    slider1: SliderArticle[];
+    slider2: SliderArticle[];
+  };
+  meta: any;
+}
+
 interface ApiResponse {
   data: Article[];
   meta: {
@@ -103,6 +131,25 @@ function formatDate(dateString: string): string {
     day: "numeric",
     year: "numeric",
   });
+}
+
+async function getSliderData() {
+  try {
+    const response = await fetch(
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/slider?populate%5Bslider1%5D%5Bpopulate%5D=*&populate%5Bslider2%5D%5Bpopulate%5D=*",
+      { next: { revalidate: 3600 } }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch slider data: ${response.status}`);
+    }
+
+    const data: SliderResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching slider data:", error);
+    return null;
+  }
 }
 
 async function getTrendingArticles() {
@@ -142,27 +189,31 @@ function transformArticlesToCardFormat(articles: Article[]) {
   }));
 }
 
+function transformSliderArticlesToPosts(sliderArticles: SliderArticle[]) {
+  return sliderArticles.map((article) => ({
+    tag: article.category?.name || "Uncategorized",
+    date: `${article.author?.name || "Unknown"} - ${formatDate(
+      article.publishedAt
+    )}`,
+    image:
+      article.cover?.url ||
+      article.cover?.formats?.large?.url ||
+      "/placeholder.svg?height=600&width=1200",
+    title: article.title,
+    slug: article.slug,
+  }));
+}
+
 export default async function Home() {
+  // Fetch slider data
+  const sliderResponse = await getSliderData();
+  const slider1Articles = sliderResponse?.data?.slider1 || [];
+  const slider1Posts = transformSliderArticlesToPosts(slider1Articles);
+
+  // Fetch trending articles
   const trendingArticlesResponse = await getTrendingArticles();
   const trendingArticles = trendingArticlesResponse?.data || [];
-
   const trendingCardData = transformArticlesToCardFormat(trendingArticles);
-
-  const posts = [
-    {
-      tag: "Cycling",
-      date: "Debits - 03 June 2023",
-      image: "/images/dec5f05fce3ccef2b5c1d1d3b1dfedb8.jpeg",
-      title: "Discover the member benifts of USA Cycling!",
-    },
-    {
-      tag: "Recent",
-      date: "Agence France-Presse - 04 June 2023",
-      image: "/images/08e1a7e3ae559ddf8fac2dd016a414b4.jpeg",
-      title:
-        "Lionel Messi Leaving Ligue 2 Team Paris Saint-Germain, Club Confirms",
-    },
-  ];
 
   const newsItems = [
     {
@@ -203,7 +254,7 @@ export default async function Home() {
 
   return (
     <>
-      <HeroSection posts={posts} />
+      <HeroSection posts={slider1Posts} />
       <SectionWrapper sliderHeading="Trending" articles={trendingCardData} />
       <SectionWrapperV2 headingCol1="IPL Points table" headingCol2="Folders" />
       <FullWidthSlider posts={newsItems} />

@@ -26,9 +26,76 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
     article.cover?.formats?.medium?.url ||
     "/placeholder.svg?height=600&width=1200";
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const sidebarVariants = {
+    hidden: { opacity: 0, x: 30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const folderBlockVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        delay: 0.3 + custom * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
+
+  const metadataVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        delay: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   return (
     <>
-      <article className="text-[#d9d9d9]">
+      <motion.article
+        className="text-[#d9d9d9]"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         <div className="space-y-[15px] lg:space-y-[23px] xl:space-y-[25px]">
           <motion.h1
             className="font-saira-condensed font-bold text-[24px] sm:text-[28px] md:text-[32px] leading-[36px]"
@@ -39,7 +106,10 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
             {article.title}
           </motion.h1>
           <div className="flex flex-col lg:flex-row space-y-[20px] lg:space-y-0 lg:space-x-[25px]">
-            <div className="bg-[#121212] space-y-[15px] xl:space-y-[42px] flex-1">
+            <motion.div
+              className="bg-[#121212] space-y-[15px] xl:space-y-[42px] flex-1"
+              variants={itemVariants}
+            >
               <div className="lg:pr-[30px] xl:pr-[45px] xl:pt-[5px] space-y-[23px] xl:space-y-[26px]">
                 <motion.div
                   className="relative w-full h-[216px] sm:h-[350px] md:h-[461px] rounded-[10px] overflow-hidden"
@@ -71,28 +141,47 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                     />
                   </motion.div>
                 </motion.div>
-                <div className="flex items-center justify-between text-[12px] sm:text-[14px] lg:text-[16px] leading-[12px] sm:leading-[14px] text-[#b6b6b6]">
+                <motion.div
+                  className="flex items-center justify-between text-[12px] sm:text-[14px] lg:text-[16px] leading-[12px] sm:leading-[14px] text-[#b6b6b6]"
+                  variants={metadataVariants}
+                >
                   <div className="max-w-[45%] sm:max-w-[33%] w-full flex sm:flex-1 items-center space-x-[6.4px] sm:space-x-[8px] md:space-x-[10px] lg:space-x-[14px] xl:space-x-[18px]">
-                    <Avatar className="relative w-5 sm:w-6 md:w-7 lg:w-[35px] xl:w-[43px] h-5 sm:h-6 md:h-7 lg:h-[35px] xl:h-[43px] rounded-full overflow-hidden">
-                      <AvatarImage
-                        src={article.author.authorImage}
-                        alt={`${article.author.name} avatar`}
-                      />
-                      <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
-                        {article.author.name
-                          .split(" ")
-                          .map((name: string) => name[0])
-                          .join("")
-                          .substring(0, 2)
-                          .toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="font-noto-sans font-normal text-[12px] sm:text-[14px] lg:text-[16px] xl:text-[20px] leading-[12px] sm:leading-[14px]">
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.7 }}
+                    >
+                      <Avatar className="relative w-5 sm:w-6 md:w-7 lg:w-[35px] xl:w-[43px] h-5 sm:h-6 md:h-7 lg:h-[35px] xl:h-[43px] rounded-full overflow-hidden">
+                        <AvatarImage
+                          src={article.author.authorImage}
+                          alt={`${article.author.name} avatar`}
+                        />
+                        <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
+                          {article.author.name
+                            .split(" ")
+                            .map((name: string) => name[0])
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </motion.div>
+                    <motion.span
+                      className="font-noto-sans font-normal text-[12px] sm:text-[14px] lg:text-[16px] xl:text-[20px] leading-[12px] sm:leading-[14px]"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.8 }}
+                    >
                       {article.author.name || "Author"}
-                    </span>
+                    </motion.span>
                   </div>
                   <div className="flex flex-1 flex-wrap sm:flex-nowrap gap-1 items-center justify-between text-right">
-                    <div className="flex items-center justify-end sm:justify-center w-full space-x-[6.2px] sm:space-x-[8px] md:space-x-[10px] lg:space-x-[14px] xl:space-x-[18px]">
+                    <motion.div
+                      className="flex items-center justify-end sm:justify-center w-full space-x-[6.2px] sm:space-x-[8px] md:space-x-[10px] lg:space-x-[14px] xl:space-x-[18px]"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.9 }}
+                    >
                       <svg
                         className="inline-block w-[11px] sm:w-[14px] md:w-[18px] lg:w-[22px] xl:w-[29px] h-[12px] sm:h-[14px] md:h-[20px] lg:h-[25px] xl:h-[32px]"
                         viewBox="0 0 24 24"
@@ -115,8 +204,13 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                       </svg>
                       <span>{formatDate(article.createdAt, "numeric")}</span>
-                    </div>
-                    <div className="flex items-center justify-end w-full space-x-[6.2px] lg:space-x-[14px] xl:space-x-[18px] text-right">
+                    </motion.div>
+                    <motion.div
+                      className="flex items-center justify-end w-full space-x-[6.2px] lg:space-x-[14px] xl:space-x-[18px] text-right"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 1 }}
+                    >
                       <svg
                         className="inline-block w-3 sm:w-4 md:w-[20px] lg:w-[25px] xl:w-[32px] h-3 sm:h-4 md:h-[20px] lg:h-[25px] xl:h-[32px]"
                         viewBox="0 0 24 24"
@@ -134,9 +228,9 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           articleContent || article.description
                         )}
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
-                </div>
+                </motion.div>
               </div>
               <div className="prose prose-lg prose-invert max-w-none space-y-6">
                 {articleContent
@@ -153,13 +247,34 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                     </motion.p>
                   ))}
               </div>
-            </div>
-            <div className="flex flex-col sm:flex-row lg:flex-col lg:max-w-[35%] w-full space-x-0 sm:space-x-[25px] lg:space-x-0 space-y-[25px] sm:space-y-0 lg:space-y-[40px]">
-              <div className="flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px]">
-                <SectionHeading heading="Trending" version="home-page" />
-                <div className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5">
+            </motion.div>
+            <motion.div
+              className="flex flex-col sm:flex-row lg:flex-col lg:max-w-[35%] w-full space-x-0 sm:space-x-[25px] lg:space-x-0 space-y-[25px] sm:space-y-0 lg:space-y-[40px]"
+              variants={sidebarVariants}
+            >
+              <motion.div
+                className="flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px]"
+                variants={itemVariants}
+              >
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <SectionHeading heading="Trending" version="home-page" />
+                </motion.div>
+                <motion.div
+                  className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
                   <div className="space-y-6 xl:space-y-10">
-                    <div className="folderBlock flex items-center space-x-[18px] font-noto-sans">
+                    <motion.div
+                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
+                      custom={0}
+                      variants={folderBlockVariants}
+                    >
                       <div className="relative w-[70px] sm:w-[75px] lg:w-[80px] xl:w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                         <Image
                           src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
@@ -176,8 +291,12 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           Baku 2023 Taekwondo Championships
                         </h4>
                       </div>
-                    </div>
-                    <div className="folderBlock flex items-center space-x-[18px] font-noto-sans">
+                    </motion.div>
+                    <motion.div
+                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
+                      custom={1}
+                      variants={folderBlockVariants}
+                    >
                       <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                         <Image
                           src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
@@ -194,8 +313,12 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           Baku 2023 Taekwondo Championships
                         </h4>
                       </div>
-                    </div>
-                    <div className="folderBlock flex items-center space-x-[18px] font-noto-sans">
+                    </motion.div>
+                    <motion.div
+                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
+                      custom={2}
+                      variants={folderBlockVariants}
+                    >
                       <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                         <Image
                           src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
@@ -212,15 +335,33 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           Baku 2023 Taekwondo Championships
                         </h4>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
-                </div>
-              </div>
-              <div className="flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px]">
-                <SectionHeading heading="Trending" version="home-page" />
-                <div className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5">
+                </motion.div>
+              </motion.div>
+              <motion.div
+                className="flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px]"
+                variants={itemVariants}
+              >
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                  <SectionHeading heading="Trending" version="home-page" />
+                </motion.div>
+                <motion.div
+                  className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                >
                   <div className="space-y-6 xl:space-y-10">
-                    <div className="folderBlock flex items-center space-x-[18px] font-noto-sans">
+                    <motion.div
+                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
+                      custom={3}
+                      variants={folderBlockVariants}
+                    >
                       <div className="relative w-[70px] sm:w-[75px] lg:w-[80px] xl:w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                         <Image
                           src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
@@ -237,8 +378,12 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           Baku 2023 Taekwondo Championships
                         </h4>
                       </div>
-                    </div>
-                    <div className="folderBlock flex items-center space-x-[18px] font-noto-sans">
+                    </motion.div>
+                    <motion.div
+                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
+                      custom={4}
+                      variants={folderBlockVariants}
+                    >
                       <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                         <Image
                           src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
@@ -255,8 +400,12 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           Baku 2023 Taekwondo Championships
                         </h4>
                       </div>
-                    </div>
-                    <div className="folderBlock flex items-center space-x-[18px] font-noto-sans">
+                    </motion.div>
+                    <motion.div
+                      className="folderBlock flex items-center space-x-[18px] font-noto-sans"
+                      custom={5}
+                      variants={folderBlockVariants}
+                    >
                       <div className="relative w-[75px] lg:w-[80px] xl:w-[100px] h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                         <Image
                           src="/images/6462ac36c7d10cb538c2c7a2daa32ce6.png"
@@ -273,14 +422,14 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                           Baku 2023 Taekwondo Championships
                         </h4>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </article>
+      </motion.article>
     </>
   );
 }

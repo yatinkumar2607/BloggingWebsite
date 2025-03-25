@@ -83,7 +83,7 @@ const StandingsTable: React.FC<StandingsTableProps> = ({
             {heading}
           </motion.h2>
           <motion.span
-            className="flex-1 bg-[#2a2a2a] h-[5px]"
+            className="flex-1 bg-[#2a2a2a] h-[5px] mt-1.5"
             variants={{
               hidden: { scaleX: 0, originX: 0 },
               visible: {
