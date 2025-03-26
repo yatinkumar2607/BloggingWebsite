@@ -206,8 +206,22 @@ export default function TrendingSidebar({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: delay + 0.1 }}
         >
-          <div className="text-center py-8 text-[#d9d9d9]">
-            <p>No {category} articles found</p>
+          <div className="text-center py-8">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: delay + 0.3 }}
+              className="space-y-4"
+            >
+              <h3 className="text-[#d9d9d9] text-xl font-semibold">
+                Coming Soon
+              </h3>
+              <p className="text-[#9e9e9e] text-sm">
+                {category.charAt(0).toUpperCase() + category.slice(1)} content
+                will be available shortly.
+              </p>
+              <div className="w-16 h-1 bg-blue-500 mx-auto mt-2"></div>
+            </motion.div>
           </div>
         </motion.div>
       </motion.div>
