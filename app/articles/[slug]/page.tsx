@@ -59,10 +59,7 @@ export async function generateStaticParams() {
 async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
-      `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
-      {
-        cache: "no-store", // Disable caching
-      }
+      `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`
     );
 
     if (!response.ok) {
@@ -152,6 +149,7 @@ async function ArticlePageContent({
 }) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
+  console.log("slug", slug);
 
   if (!article) {
     return (
