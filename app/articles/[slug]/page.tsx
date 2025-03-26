@@ -8,7 +8,7 @@ async function getAllArticleSlugs() {
     // First, get the total count of articles
     const countResponse = await fetch(
       "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=id&pagination[pageSize]=1",
-      { next: { revalidate: 0 } } // Disable caching to always get fresh data
+      { cache: "no-store" } // Disable caching to always get fresh data
     );
 
     if (!countResponse.ok) {
@@ -26,7 +26,7 @@ async function getAllArticleSlugs() {
     for (let page = 1; page <= totalPages; page++) {
       const response = await fetch(
         `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=slug&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-        { next: { revalidate: 0 } } // Disable caching
+        { cache: "no-store" } // Disable caching
       );
 
       if (!response.ok) {
@@ -61,7 +61,7 @@ async function getArticleBySlug(slug: string) {
     const response = await fetch(
       `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
       {
-        next: { revalidate: 0 }, // Disable caching
+        cache: "no-store", // Disable caching
       }
     );
 
