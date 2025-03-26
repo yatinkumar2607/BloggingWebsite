@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import ArticleDetail from "@/components/ArticleDetail";
 import SimilarArticles from "@/components/SimilarArticles";
 export const revalidate = 0;
-
+//
 async function getAllArticleSlugs() {
   try {
     // First, get the total count of articles
