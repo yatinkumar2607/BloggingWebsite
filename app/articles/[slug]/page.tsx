@@ -2,13 +2,14 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import ArticleDetail from "@/components/ArticleDetail";
 import SimilarArticles from "@/components/SimilarArticles";
+export const revalidate = 0;
 
 async function getAllArticleSlugs() {
   try {
     // First, get the total count of articles
     const countResponse = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=id&pagination[pageSize]=1",
-      { cache: "no-store" } // Disable caching to always get fresh data
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=id&pagination[pageSize]=1"
+      // { next: { revalidate: 0 } } // Disable caching to always get fresh data
     );
 
     if (!countResponse.ok) {
@@ -25,8 +26,8 @@ async function getAllArticleSlugs() {
 
     for (let page = 1; page <= totalPages; page++) {
       const response = await fetch(
-        `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=slug&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-        { cache: "no-store" } // Disable caching
+        `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=slug&pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+        // { next: { revalidate: 0 } } // Disable caching
       );
 
       if (!response.ok) {
@@ -59,7 +60,10 @@ export async function generateStaticParams() {
 async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
-      `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`
+      `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
+      {
+        // next: { revalidate: 0 }, // Disable caching
+      }
     );
 
     if (!response.ok) {
@@ -149,7 +153,6 @@ async function ArticlePageContent({
 }) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
-  console.log("slug", slug);
 
   if (!article) {
     return (
