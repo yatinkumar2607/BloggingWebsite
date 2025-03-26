@@ -2,6 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import SectionWrapper from "@/components/SectionWrapper";
 import FullWidthSlider from "@/components/FullWidthSlider";
 import SectionWrapperV2 from "@/components/SectionWrapperV2";
+export const revalidate = 0;
 
 interface Author {
   id: number;
@@ -139,8 +140,8 @@ function formatDate(dateString: string): string {
 async function getSliderData() {
   try {
     const response = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/slider?populate%5Bslider1%5D%5Bpopulate%5D=*&populate%5Bslider2%5D%5Bpopulate%5D=*",
-      { next: { revalidate: 0 } }
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/slider?populate%5Bslider1%5D%5Bpopulate%5D=*&populate%5Bslider2%5D%5Bpopulate%5D=*"
+      // { next: { revalidate: 0 } }
     );
 
     if (!response.ok) {
@@ -158,8 +159,8 @@ async function getSliderData() {
 async function getTrendingArticles() {
   try {
     const response = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=trending&pagination[limit]=3&populate=*",
-      { next: { revalidate: 3600 } }
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=trending&pagination[limit]=3&populate=*"
+      // { next: { revalidate: 3600 } }
     );
 
     if (!response.ok) {
@@ -177,8 +178,8 @@ async function getTrendingArticles() {
 async function getRecentArticles() {
   try {
     const response = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=recent&pagination[limit]=3&populate=*",
-      { next: { revalidate: 3600 } }
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=recent&pagination[limit]=3&populate=*"
+      // { next: { revalidate: 3600 } }
     );
 
     if (!response.ok) {
@@ -197,8 +198,8 @@ async function getRecentArticles() {
 async function getTopArticles() {
   try {
     const response = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=top&pagination[limit]=3&populate=*",
-      { next: { revalidate: 3600 } }
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=top&pagination[limit]=3&populate=*"
+      // { next: { revalidate: 3600 } }
     );
 
     if (!response.ok) {
