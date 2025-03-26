@@ -140,7 +140,7 @@ async function getSliderData() {
   try {
     const response = await fetch(
       "https://credible-rhythm-2abfae7efc.strapiapp.com/api/slider?populate%5Bslider1%5D%5Bpopulate%5D=*&populate%5Bslider2%5D%5Bpopulate%5D=*",
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 0 } }
     );
 
     if (!response.ok) {
