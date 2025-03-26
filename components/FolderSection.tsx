@@ -241,16 +241,16 @@ export default function FolderSection({
                 variants={folderBlockVariants}
                 whileHover={{ x: 5, transition: { duration: 0.2 } }}
               >
-                <div className="relative min-w-[70px] sm:w-[75px] lg:w-[80px] xl:w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
+                <div className="relative min-w-[70px] sm:min-w-[75px] lg:min-w-[80px] xl:min-w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                   <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.title}
                     fill
-                    className="object-contain transition-transform duration-300 group-hover:scale-110"
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
                 </div>
-                <div className="space-y-[8px] xl:space-y-[12px]">
+                <div className="flex-1 space-y-[8px] xl:space-y-[12px]">
                   <span className="font-medium text-[14px] leading-[14px] text-white/60">
                     {item.date}
                   </span>

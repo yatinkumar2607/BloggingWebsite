@@ -255,7 +255,7 @@ export default function TrendingSidebar({
                 variants={folderBlockVariants}
                 whileHover={{ x: 5, transition: { duration: 0.2 } }}
               >
-                <div className="relative min-w-[70px] sm:w-[75px] lg:w-[80px] xl:w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
+                <div className="relative min-w-[70px] sm:min-w-[75px] lg:min-w-[80px] xl:min-w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
                   <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.title}

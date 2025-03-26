@@ -373,9 +373,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
         ))}
       </motion.div>
 
-      {context === "main"
-        ? renderPagination()
-        : renderSimilarArticlesNavigation()}
+      {context === "main" && renderPagination()}
     </div>
   );
 };

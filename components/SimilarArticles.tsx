@@ -1,14 +1,14 @@
 "use client";
 
-import ArticleGrid from "./ArticlesGrid";
 import { useEffect, useState } from "react";
 import SectionHeading from "./SectionHeading";
+import ArticleGrid from "./ArticlesGrid";
 
 interface SimilarArticlesProps {
   categorySlug?: string;
   categoryName?: string;
-  currentArticleSlug?: string;
   currentArticleId?: number | string;
+  currentArticleSlug?: string;
 }
 
 const SimilarArticles = ({
@@ -19,26 +19,32 @@ const SimilarArticles = ({
 }: SimilarArticlesProps) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const [usingFallback, setUsingFallback] = useState(false);
 
+  // Check if we're on mobile
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
     };
 
+    // Initial check
     checkMobile();
 
+    // Add event listener
     window.addEventListener("resize", checkMobile);
 
+    // Cleanup
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
+  // Format articles from API response
   const formatArticles = (data: any) => {
+    // Filter out the current article
     return data.data
       .filter((article: any) => {
         return (
@@ -72,6 +78,7 @@ const SimilarArticles = ({
       });
   };
 
+  // Fetch similar articles
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -79,7 +86,6 @@ const SimilarArticles = ({
 
         const limit = 20;
         let allArticles = [];
-        let usedFallback = false;
 
         if (categorySlug) {
           const categoryResponse = await fetch(
@@ -92,23 +98,7 @@ const SimilarArticles = ({
           }
         }
 
-        if (allArticles.length === 0) {
-          usedFallback = true;
-          const allArticlesResponse = await fetch(
-            `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?pagination[page]=1&pagination[pageSize]=${limit}&populate=*&sort[publishedAt]=desc`
-          );
-
-          if (!allArticlesResponse.ok) {
-            throw new Error(
-              `Failed to fetch articles: ${allArticlesResponse.status}`
-            );
-          }
-
-          const allArticlesData = await allArticlesResponse.json();
-          allArticles = formatArticles(allArticlesData);
-        }
-
-        setUsingFallback(usedFallback);
+        // No fallback fetch - just use what we got from the category
         setArticles(allArticles);
         setError(null);
       } catch (err) {
@@ -147,16 +137,7 @@ const SimilarArticles = ({
   }
 
   if (articles.length === 0) {
-    return (
-      <section className="section">
-        <div className="space-y-5">
-          <SectionHeading heading="More Articles" />
-          <div className="text-center py-8 text-[#d9d9d9]">
-            No articles found.
-          </div>
-        </div>
-      </section>
-    );
+    return null; // Don't render the component at all when no articles are found
   }
 
   return (
