@@ -16,12 +16,12 @@ interface TrendingItem {
 
 interface TrendingSidebarProps {
   heading?: string;
-  category: "trending" | "recent";
+  category?: "trending" | "recent";
   delay?: number;
   className?: string;
 }
 
-export default function TrendingSidebar({
+export default function FolderSection({
   heading,
   category = "trending",
   delay = 0.3,
@@ -246,7 +246,7 @@ export default function TrendingSidebar({
                     src={item.image || "/placeholder.svg"}
                     alt={item.title}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="object-contain transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
                 </div>
