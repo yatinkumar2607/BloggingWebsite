@@ -41,6 +41,25 @@ export default function CategoryArticlesContainer({
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
 
   // Get the current page from search params
   const pageParam = searchParams.get("page");
@@ -50,9 +69,12 @@ export default function CategoryArticlesContainer({
     async function fetchArticles() {
       try {
         setLoading(true);
+
+        const pageSize = isMobile ? 6 : 12;
+
         // Use category slug for filtering
         const response = await fetch(
-          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[updatedAt]=desc&pagination[page]=${currentPage}&pagination[pageSize]=12&populate=*`
+          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[updatedAt]=desc&pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
         );
 
         if (!response.ok) {
@@ -99,7 +121,7 @@ export default function CategoryArticlesContainer({
     }
 
     fetchArticles();
-  }, [category, currentPage]);
+  }, [category, currentPage, isMobile]);
 
   if (error) {
     return (

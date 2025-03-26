@@ -185,7 +185,7 @@ function transformArticlesToCardFormat(articles: Article[]) {
       article.description ||
       article.blocks?.[0]?.body?.substring(0, 150) + "..." ||
       "",
-    readMoreUrl: `/blog/${article.slug}`,
+    readMoreUrl: `/articles/${article.slug}`,
   }));
 }
 

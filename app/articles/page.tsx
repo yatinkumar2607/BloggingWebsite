@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function ArticlesPage() {
   return (
-    <div className="bg-[#121212] pb-16">
+    <div className="bg-[#121212] pb-10 md:pb-12 lg:pb-16">
       <div className="max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-8 lg:px-10 pt-[8px] space-y-6">
         <SectionHeading heading="Articles" version="single-page" />
         <Suspense

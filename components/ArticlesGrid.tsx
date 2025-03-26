@@ -4,7 +4,7 @@ import Link from "next/link";
 import type React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -94,20 +94,15 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
     },
   };
 
-  // Function to create excerpt from description
   const createExcerpt = (text: string, maxLength = 120): string => {
     if (!text) return "";
 
-    // If text is already shorter than maxLength, return it as is
     if (text.length <= maxLength) return text;
 
-    // Find the last space before maxLength to avoid cutting words
     const lastSpaceIndex = text.substring(0, maxLength).lastIndexOf(" ");
 
-    // If no space found, just cut at maxLength
     const cutIndex = lastSpaceIndex > 0 ? lastSpaceIndex : maxLength;
 
-    // Return truncated text with ellipsis
     return `${text.substring(0, cutIndex)}...`;
   };
 
@@ -168,11 +163,11 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
   const renderPagination = () => {
     if (context === "main" && pagination.pageCount > 1) {
       return (
-        <div className="w-full bg-[#333333] py-4 mt-8">
-          <div className="flex justify-end items-center space-x-4">
+        <div className="w-full bg-[#424242]">
+          <div className="flex justify-center items-center py-[25px]">
             <Link
               href={createPaginationUrl(Math.max(1, currentPage - 1))}
-              className={`p-3 bg-[#444444] rounded-md ${
+              className={`w-[63px] h-[50px] p-1 bg-[#5c5c5c] rounded-[3px] flex items-center justify-center ${
                 currentPage <= 1
                   ? "text-gray-500 cursor-not-allowed"
                   : "text-white hover:bg-[#555555]"
@@ -180,18 +175,17 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
               aria-disabled={currentPage <= 1}
               tabIndex={currentPage <= 1 ? -1 : undefined}
             >
-              <ChevronLeft size={20} />
+              <MoveLeft size={20} />
             </Link>
-
             {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
               (page) => (
                 <Link
                   key={page}
                   href={createPaginationUrl(page)}
-                  className={`w-10 h-10 flex items-center justify-center rounded-full ${
+                  className={`w-[34px] h-[34px] flex items-center justify-center rounded-full mx-4 font-noto-sans font-black text-[24px] leading-[60px] ${
                     currentPage === page
-                      ? "bg-black text-white"
-                      : "bg-transparent text-white hover:bg-[#555555]"
+                      ? "bg-[#121212] text-[#e8e8e8]"
+                      : "bg-transparent text-[#e8e8e8] hover:bg-[#555555]"
                   }`}
                   aria-current={currentPage === page ? "page" : undefined}
                 >
@@ -199,12 +193,11 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
                 </Link>
               )
             )}
-
             <Link
               href={createPaginationUrl(
                 Math.min(pagination.pageCount, currentPage + 1)
               )}
-              className={`p-3 bg-[#444444] rounded-md ${
+              className={`w-[63px] h-[50px] p-1 bg-[#5c5c5c] rounded-[3px] flex items-center justify-center ${
                 currentPage >= pagination.pageCount
                   ? "text-gray-500 cursor-not-allowed"
                   : "text-white hover:bg-[#555555]"
@@ -212,7 +205,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
               aria-disabled={currentPage >= pagination.pageCount}
               tabIndex={currentPage >= pagination.pageCount ? -1 : undefined}
             >
-              <ChevronRight size={20} />
+              <MoveRight size={20} />
             </Link>
           </div>
         </div>
@@ -237,7 +230,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({
   }
 
   return (
-    <div className="space-y-[100px]">
+    <div className="space-y-[45px] sm:space-y-[60px] md:space-y-[75px] lg:space-y-[90px] xl:space-y-[100px]">
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-[26px]"
         variants={containerVariants}

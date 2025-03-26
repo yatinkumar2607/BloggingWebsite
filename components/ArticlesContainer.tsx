@@ -37,7 +37,6 @@ export default function ArticlesContainer() {
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if we're on mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -51,7 +50,6 @@ export default function ArticlesContainer() {
     };
   }, []);
 
-  // Get the current page from search params
   const pageParam = searchParams.get("page");
   const currentPage = pageParam ? Number.parseInt(pageParam, 10) : 1;
 
@@ -60,7 +58,7 @@ export default function ArticlesContainer() {
       try {
         setLoading(true);
 
-        const pageSize = isMobile ? 6 : 6;
+        const pageSize = isMobile ? 6 : 12;
 
         const response = await fetch(
           `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
