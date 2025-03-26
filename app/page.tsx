@@ -11,6 +11,9 @@ interface Author {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  avatar?: {
+    url: string;
+  };
 }
 
 interface Category {
@@ -171,6 +174,45 @@ async function getTrendingArticles() {
   }
 }
 
+async function getRecentArticles() {
+  try {
+    const response = await fetch(
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=recent&pagination[limit]=3&populate=*",
+      { next: { revalidate: 3600 } }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch recent articles: ${response.status}`);
+    }
+
+    const data: ApiResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching recent articles:", error);
+    return null;
+  }
+}
+
+// Add a new function to fetch top articles after the getRecentArticles function
+async function getTopArticles() {
+  try {
+    const response = await fetch(
+      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][name][$eq]=top&pagination[limit]=3&populate=*",
+      { next: { revalidate: 3600 } }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch top articles: ${response.status}`);
+    }
+
+    const data: ApiResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching top articles:", error);
+    return null;
+  }
+}
+
 function transformArticlesToCardFormat(articles: Article[]) {
   return articles.map((article) => ({
     featuredImage:
@@ -178,7 +220,7 @@ function transformArticlesToCardFormat(articles: Article[]) {
       article.cover?.formats?.medium?.url ||
       "/placeholder.svg?height=400&width=600",
     authorName: article.author?.name || "Unknown Author",
-    authorImage: "/images/unsplash_B5PLtlpR7YA.png",
+    authorImage: article.author?.avatar?.url || null,
     date: formatDate(article.publishedAt),
     title: article.title,
     excerpt:
@@ -201,6 +243,7 @@ function transformSliderArticlesToPosts(sliderArticles: SliderArticle[]) {
       "/placeholder.svg?height=600&width=1200",
     title: article.title,
     slug: article.slug,
+    description: article.description || undefined,
   }));
 }
 
@@ -210,56 +253,40 @@ export default async function Home() {
   const slider1Articles = sliderResponse?.data?.slider1 || [];
   const slider1Posts = transformSliderArticlesToPosts(slider1Articles);
 
+  // Transform slider2 articles for FullWidthSlider
+  const slider2Articles = sliderResponse?.data?.slider2 || [];
+  const slider2Posts = transformSliderArticlesToPosts(slider2Articles);
+
   // Fetch trending articles
   const trendingArticlesResponse = await getTrendingArticles();
   const trendingArticles = trendingArticlesResponse?.data || [];
   const trendingCardData = transformArticlesToCardFormat(trendingArticles);
 
-  const newsItems = [
-    {
-      image: "/images/08e1a7e3ae559ddf8fac2dd016a414b4.jpeg",
-      date: "Agence France-Presse - 04 June 2023",
-      title:
-        "LIONEL MESSI LEAVING LIGUE 1 TEAM PARIS SAINT-GERMAIN, CLUB CONFIRMS",
-      description:
-        "The EuroLeague Finals Top Scorer is the individual award for the player that gained the highest points in the EuroLeague Finals",
-      tag: "Recent",
-    },
-    {
-      image: "/images/2a0a6b22204579198ff2e4508646a424.jpeg",
-      date: "ESPN - 15 March 2025",
-      title:
-        "MANCHESTER CITY WINS PREMIER LEAGUE TITLE FOR FOURTH CONSECUTIVE SEASON",
-      description:
-        "Manchester City has secured the Premier League title with three games remaining, setting a new record for consecutive titles in the modern era.",
-      tag: "Breaking",
-    },
-    {
-      image: "/images/a2133d2051ea3e3a6a557b092072c912.jpeg",
-      date: "Sports Illustrated - 14 March 2025",
-      title: "NBA ANNOUNCES EXPANSION TEAMS IN LAS VEGAS AND SEATTLE",
-      description:
-        "The NBA Board of Governors has unanimously approved the addition of two expansion franchises in Las Vegas and Seattle, set to begin play in the 2027-28 season.",
-      tag: "Basketball",
-    },
-    {
-      image: "/images/9a679af59a3678412acbe0c5b79c5c31.jpeg",
-      date: "BBC Sport - 12 March 2025",
-      title: "RAFAEL NADAL ANNOUNCES RETIREMENT FROM PROFESSIONAL TENNIS",
-      description:
-        "After a legendary career spanning over two decades, 24-time Grand Slam champion Rafael Nadal has announced his retirement from professional tennis.",
-      tag: "Tennis",
-    },
-  ];
+  // Fetch recent articles
+  const recentArticlesResponse = await getRecentArticles();
+  const recentArticles = recentArticlesResponse?.data || [];
+  const recentCardData = transformArticlesToCardFormat(recentArticles);
 
+  // Fetch top articles
+  const topArticlesResponse = await getTopArticles();
+  const topArticles = topArticlesResponse?.data || [];
+  const topCardData = transformArticlesToCardFormat(topArticles);
+
+  // Update the return statement to conditionally render SectionWrapper components
   return (
     <>
       <HeroSection posts={slider1Posts} />
-      <SectionWrapper sliderHeading="Trending" articles={trendingCardData} />
+      {trendingCardData.length > 0 && (
+        <SectionWrapper sliderHeading="Trending" articles={trendingCardData} />
+      )}
       <SectionWrapperV2 headingCol1="IPL Points table" headingCol2="Folders" />
-      <FullWidthSlider posts={newsItems} />
-      <SectionWrapper sliderHeading="Recent" />
-      <SectionWrapper sliderHeading="Top Articles" />
+      <FullWidthSlider posts={slider2Posts} />
+      {recentCardData.length > 0 && (
+        <SectionWrapper sliderHeading="Recent" articles={recentCardData} />
+      )}
+      {topCardData.length > 0 && (
+        <SectionWrapper sliderHeading="Top Articles" articles={topCardData} />
+      )}
     </>
   );
 }

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 interface Article {
   featuredImage: string;
   authorName: string;
-  authorImage: string;
+  authorImage: string | null;
   date: string;
   title: string;
   excerpt: string;

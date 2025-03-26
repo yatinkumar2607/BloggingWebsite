@@ -148,7 +148,7 @@ export default function FullWidthSlider({ posts = [] }: FullWidthSliderProps) {
                   }}
                 >
                   <motion.span
-                    className="font-roboto font-medium text-sm sm:text-base md:text-[18px] lg:text-[20px] text-[#d9d9d9] px-[16.85px] sm:px-[18px] py-[3.85px] border-[0.65px] border-[#d9d9d9]"
+                    className="font-roboto font-medium text-sm sm:text-base md:text-[18px] lg:text-[20px] text-[#d9d9d9] px-[16.85px] sm:px-[18px] py-[3.85px] border-[0.65px] border-[#d9d9d9] capitalize"
                     initial={{ scale: 0.9 }}
                     animate={{
                       scale: 1,

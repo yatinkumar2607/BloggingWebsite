@@ -9,7 +9,7 @@ import { useState } from "react";
 interface BlogCardProps {
   featuredImage: string;
   authorName: string;
-  authorImage?: string;
+  authorImage?: string | null;
   date: string;
   title: string;
   excerpt: string;
@@ -65,7 +65,10 @@ export default function BlogCard({
           <CardContent className="p-0 space-y-[14px]">
             <div className="flex items-center space-x-4">
               <Avatar className="h-11 w-11">
-                <AvatarImage src={authorImage} alt={`${authorName} avatar`} />
+                <AvatarImage
+                  src={authorImage || ""}
+                  alt={`${authorName} avatar`}
+                />
                 <AvatarFallback className="text-[#121212] font-saira-condensed font-bold">
                   {initials}
                 </AvatarFallback>
@@ -82,7 +85,11 @@ export default function BlogCard({
               >
                 {title}
               </h3>
-              <p>{excerpt}</p>
+              <p>
+                {excerpt.length > 135
+                  ? `${excerpt.substring(0, excerpt.lastIndexOf(" ", 135))}...`
+                  : excerpt}
+              </p>
             </div>
             <div className="flex justify-end">
               <span
