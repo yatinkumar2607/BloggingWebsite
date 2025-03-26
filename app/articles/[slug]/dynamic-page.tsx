@@ -12,9 +12,7 @@ async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
       `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
-      {
-        next: { revalidate: 60 }, // Revalidate every minute
-      }
+      { cache: "no-store" }
     );
 
     if (!response.ok) {
