@@ -280,7 +280,7 @@ export default async function Home() {
         <SectionWrapper sliderHeading="Trending" articles={trendingCardData} />
       )}
       <SectionWrapperV2 headingCol1="IPL Points table" headingCol2="Folders" />
-      <FullWidthSlider posts={slider2Posts} />
+      {slider2Posts.length > 0 && <FullWidthSlider posts={slider2Posts} />}
       {recentCardData.length > 0 && (
         <SectionWrapper sliderHeading="Recent" articles={recentCardData} />
       )}

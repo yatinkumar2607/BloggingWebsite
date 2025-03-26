@@ -3,9 +3,9 @@
 import Link from "next/link";
 import type React from "react";
 import Image from "next/image";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { MoveUpRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MoveUpRight, CheckCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 interface FooterProps {
@@ -19,6 +19,7 @@ interface FooterProps {
 export default function Footer({ socialLinks }: FooterProps) {
   const [email, setEmail] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // Default social links as fallback
   const defaultSocialLinks = {
@@ -34,10 +35,27 @@ export default function Footer({ socialLinks }: FooterProps) {
     twitter = defaultSocialLinks.twitter,
   } = socialLinks || defaultSocialLinks;
 
+  // Reset success message after 3.5 seconds
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isSuccess) {
+      timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3500);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isSuccess]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Subscribing email:", email);
+    // Show success message
+    setIsSuccess(true);
+    // Clear the input
     setEmail("");
+    // Actual submission logic will be added later by the user
   };
 
   const containerVariants = {
@@ -131,6 +149,29 @@ export default function Footer({ socialLinks }: FooterProps) {
     tap: { scale: 0.95 },
   };
 
+  // Success message animation variants
+  const successVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      scale: 0.9,
+      transition: {
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   // Social media data with dynamic links
   const socialMediaData = [
     {
@@ -201,7 +242,10 @@ export default function Footer({ socialLinks }: FooterProps) {
                 SUBSCRIPTION
               </motion.h3>
             </div>
-            <motion.div className="max-w-[585px]" variants={formVariants}>
+            <motion.div
+              className="max-w-[585px] relative"
+              variants={formVariants}
+            >
               <form onSubmit={handleSubmit} className="flex w-full">
                 <Input
                   type="email"
@@ -215,12 +259,37 @@ export default function Footer({ socialLinks }: FooterProps) {
                   type="submit"
                   className="bg-white rounded-e-sm hover:bg-zinc-200 w-[31px] sm:w-[38px] md:w-[42px] lg:w-[85px] h-[31px] sm:h-[38px] md:h-[42px] lg:h-[58px] flex items-center justify-center focus:ring-offset-0"
                   variants={buttonVariants}
-                  // whileHover="hover"
                   whileTap="tap"
                 >
                   <MoveUpRight className="text-[#84878b] w-4 h-4" />
                 </motion.button>
               </form>
+
+              {/* Success message */}
+              <AnimatePresence>
+                {isSuccess && (
+                  <motion.div
+                    className="absolute left-0 -top-14 sm:-top-16 md:-top-20 bg-green-600/90 text-white px-4 py-2 rounded-md flex items-center space-x-2 shadow-lg"
+                    variants={successVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                  >
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="font-medium text-sm sm:text-base">
+                      Successfully subscribed!
+                    </span>
+
+                    {/* Animated progress bar */}
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-1 bg-white/70"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 3.5, ease: "linear" }}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </motion.div>
