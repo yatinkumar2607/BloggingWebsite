@@ -285,6 +285,7 @@ export default async function Home() {
       {recentCardData.length > 0 && (
         <SectionWrapper sliderHeading="Recent" articles={recentCardData} />
       )}
+      {slider1Posts.length > 0 && <FullWidthSlider posts={slider1Posts} />}
       {topCardData.length > 0 && (
         <SectionWrapper sliderHeading="Top Articles" articles={topCardData} />
       )}
