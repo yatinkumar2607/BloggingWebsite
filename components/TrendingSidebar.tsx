@@ -16,7 +16,7 @@ interface TrendingItem {
 
 interface TrendingSidebarProps {
   heading?: string;
-  category: "trending" | "recent";
+  category: "trending" | "recent" | "folders";
   delay?: number;
   className?: string;
 }
@@ -33,7 +33,12 @@ export default function TrendingSidebar({
 
   // Set default heading based on category if not provided
   const displayHeading =
-    heading || (category === "trending" ? "Trending" : "Recent");
+    heading ||
+    (category === "trending"
+      ? "Trending"
+      : category === "recent"
+      ? "Recent"
+      : "Folders");
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -57,7 +62,7 @@ export default function TrendingSidebar({
           image:
             article.cover?.url ||
             article.cover?.formats?.medium?.url ||
-            "/placeholder.svg?height=100&width=100",
+            "/images/elementor-placeholder-image.webp",
           date: formatDate(article.publishedAt),
           title: article.title,
           slug: `/articles/${article.slug}`,

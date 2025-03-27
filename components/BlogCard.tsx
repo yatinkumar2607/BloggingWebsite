@@ -77,9 +77,9 @@ export default function BlogCard({
                 {authorName}
               </span>
             </div>
-            <div className="space-y-[12px] text-[#9e9e9e] font-noto-sans text-[14px] leading-[22px] font-normal">
+            <div className="space-y-[12px] xl:space-y-[16px] text-[#9e9e9e] font-noto-sans text-[14px] xl:text-[16px] leading-[22px] font-normal">
               <h3
-                className={`text-[18px] leading-[24px] font-semibold font-noto-sans transition-colors duration-300 ${
+                className={`text-[18px] lg:text-[22px] leading-[24px] lg:leading-[29px] font-semibold font-noto-sans transition-colors duration-300 ${
                   isHovered ? "text-white" : "text-[#d9d9d9]"
                 }`}
               >

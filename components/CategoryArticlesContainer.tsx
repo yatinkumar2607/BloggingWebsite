@@ -100,7 +100,7 @@ export default function CategoryArticlesContainer({
             image:
               article.cover?.formats?.medium?.url ||
               article.cover?.url ||
-              "/placeholder.svg?height=400&width=600",
+              "/images/elementor-placeholder-image.webp",
             author: article.author?.name || "Unknown Author",
             authorImage: article.author?.avatar?.url || null,
             category: article.category?.name || "Uncategorized",

@@ -16,14 +16,14 @@ interface TrendingItem {
 
 interface TrendingSidebarProps {
   heading?: string;
-  category?: "trending" | "recent";
+  category?: "trending" | "recent" | "folders";
   delay?: number;
   className?: string;
 }
 
 export default function FolderSection({
   heading,
-  category = "trending",
+  category = "folders",
   delay = 0.3,
   className = "",
 }: TrendingSidebarProps) {
@@ -57,7 +57,7 @@ export default function FolderSection({
           image:
             article.cover?.url ||
             article.cover?.formats?.medium?.url ||
-            "/placeholder.svg?height=100&width=100",
+            "/images/elementor-placeholder-image.webp",
           date: formatDate(article.publishedAt),
           title: article.title,
           slug: `/articles/${article.slug}`,
@@ -216,7 +216,7 @@ export default function FolderSection({
 
   return (
     <motion.div
-      className={`flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px] ${className}`}
+      className={`flex-1 lg:flex-initial space-y-[18px] md:space-y-[23px] h-full flex flex-col ${className}`}
       variants={itemVariants}
     >
       <motion.div
@@ -227,40 +227,54 @@ export default function FolderSection({
         <SectionHeading heading={displayHeading} version="home-page" />
       </motion.div>
       <motion.div
-        className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5"
+        className="bg-[#2a2a2a] rounded-[6px] p-4 xl:py-[26px] px-[15px] xl:px-5 flex-1 flex flex-col justify-evenly"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: delay + 0.1 }}
       >
-        <div className="space-y-6 xl:space-y-10">
-          {items.map((item, index) => (
-            <Link href={item.slug} key={item.id} className="block">
-              <motion.div
-                className="folderBlock flex items-center space-x-[18px] font-noto-sans group cursor-pointer"
-                custom={index}
-                variants={folderBlockVariants}
-                whileHover={{ x: 5, transition: { duration: 0.2 } }}
-              >
-                <div className="relative min-w-[70px] sm:min-w-[75px] lg:min-w-[80px] xl:min-w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
-                  <Image
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-                </div>
-                <div className="flex-1 space-y-[8px] xl:space-y-[12px]">
-                  <span className="font-medium text-[14px] leading-[14px] text-white/60">
-                    {item.date}
-                  </span>
-                  <h4 className="font-semibold text-[14px] lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9] group-hover:text-white transition-colors duration-300">
-                    {item.title}
-                  </h4>
-                </div>
-              </motion.div>
-            </Link>
-          ))}
+        <div className="space-y-6 xl:space-y-10 flex flex-col justify-between flex-1 h-full">
+          {items.map((item, index) => {
+            // console.log(item);
+
+            return (
+              <Link href={item.slug} key={item.id} className="block">
+                <motion.div
+                  className="folderBlock flex items-center space-x-[18px] font-noto-sans group cursor-pointer"
+                  custom={index}
+                  variants={folderBlockVariants}
+                  whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                >
+                  <div className="relative min-w-[70px] sm:min-w-[75px] lg:min-w-[80px] xl:min-w-[100px] h-[70px] sm:h-[75px] lg:h-[80px] xl:h-[100px] overflow-hidden rounded-[3px]">
+                    <Image
+                      src={
+                        item.image || "/images/elementor-placeholder-image.webp"
+                      }
+                      alt={item.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+                  </div>
+                  <div className="flex-1 space-y-[8px] xl:space-y-[12px]">
+                    <span className="font-medium text-[14px] leading-[14px] text-white/60">
+                      {item.date}
+                    </span>
+                    <h4 className="font-semibold text-[14px] lg:text-[16px] xl:text-[18px] lg:leading-[20px] xl:leading-[22px] text-[#d9d9d9] group-hover:text-white transition-colors duration-300">
+                      {item.title}
+                    </h4>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })}
+        </div>
+        <div className="flex items-center justify-center mt-[15.27px]">
+          <Link
+            href="/articles/category/folders"
+            className="bg-[#121212] min-w-[112px] min-h-[38px] border border-[#121212] flex items-center justify-center p-1 rounded-[3px] font-noto-sans font-medium text-[14px] leading-[28px] text-[#8b8b8b]"
+          >
+            More
+          </Link>
         </div>
       </motion.div>
     </motion.div>

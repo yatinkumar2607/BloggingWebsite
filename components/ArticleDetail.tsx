@@ -24,7 +24,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
     article.cover?.url ||
     article.cover?.formats?.large?.url ||
     article.cover?.formats?.medium?.url ||
-    "/placeholder.svg?height=600&width=1200";
+    "/images/elementor-placeholder-image.webp";
 
   // Animation variants
   const containerVariants = {
@@ -241,7 +241,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
               className="flex flex-col sm:flex-row lg:flex-col lg:max-w-[35%] w-full space-x-0 sm:space-x-[25px] lg:space-x-0 space-y-[25px] sm:space-y-0 lg:space-y-[40px]"
               variants={sidebarVariants}
             >
-              <TrendingSidebar category="trending" delay={0.3} />
+              <TrendingSidebar category="folders" delay={0.3} />
               <TrendingSidebar category="recent" delay={0.5} />
             </motion.div>
           </div>
