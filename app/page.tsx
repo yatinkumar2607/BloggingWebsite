@@ -159,7 +159,7 @@ async function getSliderData() {
 async function getTrendingArticles() {
   try {
     const response = await fetch(
-      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][name][$eq]=trending&pagination[limit]=3&populate=*"
+      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][slug][$eq]=trending&pagination[limit]=3&populate=*"
       // { next: { revalidate: 3600 } }
     );
 
@@ -178,7 +178,7 @@ async function getTrendingArticles() {
 async function getRecentArticles() {
   try {
     const response = await fetch(
-      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][name][$eq]=recent&pagination[limit]=3&populate=*"
+      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][slug][$eq]=recent&pagination[limit]=3&populate=*"
       // { next: { revalidate: 3600 } }
     );
 
@@ -198,7 +198,7 @@ async function getRecentArticles() {
 async function getTopArticles() {
   try {
     const response = await fetch(
-      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][name][$eq]=top&pagination[limit]=3&populate=*"
+      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][slug][$eq]=top&pagination[limit]=3&populate=*"
       // { next: { revalidate: 3600 } }
     );
 
