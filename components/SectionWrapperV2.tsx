@@ -128,7 +128,7 @@ const SectionWrapperV2: React.FC<SectionWrapperV2Props> = ({
   return (
     <section className="section">
       <div className="max-w-7xl w-full mx-auto">
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-[28px] sm:gap-[105px] px-5 sm:px-6 md:px-8 lg:px-10 pb-[96px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[28px] sm:gap-[105px] px-5 sm:px-6 md:px-8 lg:px-10 pb-[96px]">
           <Table heading={headingCol1} teams={iplTeams} />
           <FolderSection heading={headingCol2} />
         </div>
