@@ -89,7 +89,7 @@ const SimilarArticles = ({
 
         if (categorySlug) {
           const categoryResponse = await fetch(
-            `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][slug][$eq]=${categorySlug}&sort[publishedAt]=desc&pagination[limit]=${limit}&populate=*`
+            `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][slug][$eq]=${categorySlug}&sort[publishedAt]=desc&pagination[limit]=${limit}&populate=*`
           );
 
           if (categoryResponse.ok) {

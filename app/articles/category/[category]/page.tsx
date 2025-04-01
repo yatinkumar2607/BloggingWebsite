@@ -6,7 +6,7 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 export async function generateStaticParams() {
   try {
     const response = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/categories",
+      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/categories",
       {
         next: { revalidate: 3600 },
       }

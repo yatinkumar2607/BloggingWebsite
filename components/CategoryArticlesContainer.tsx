@@ -74,7 +74,7 @@ export default function CategoryArticlesContainer({
 
         // Use category slug for filtering
         const response = await fetch(
-          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[updatedAt]=desc&pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
+          `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[updatedAt]=desc&pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
         );
 
         if (!response.ok) {

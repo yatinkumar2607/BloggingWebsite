@@ -20,7 +20,7 @@ export default function CategoryWrapper({
     async function checkCategoryExists() {
       try {
         const response = await fetch(
-          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/categories/${categorySlug}`
+          `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/categories/${categorySlug}`
         );
 
         if (response.status === 404) {

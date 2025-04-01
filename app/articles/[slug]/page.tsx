@@ -8,7 +8,7 @@ async function getAllArticleSlugs() {
   try {
     // First, get the total count of articles
     const countResponse = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=id&pagination[pageSize]=1"
+      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?fields[0]=id&pagination[pageSize]=1"
       // { next: { revalidate: 0 } } // Disable caching to always get fresh data
     );
 
@@ -26,7 +26,7 @@ async function getAllArticleSlugs() {
 
     for (let page = 1; page <= totalPages; page++) {
       const response = await fetch(
-        `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?fields[0]=slug&pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+        `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?fields[0]=slug&pagination[page]=${page}&pagination[pageSize]=${pageSize}`
         // { next: { revalidate: 0 } } // Disable caching
       );
 
@@ -60,7 +60,7 @@ export async function generateStaticParams() {
 async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
-      `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
+      `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles/${slug}?populate=*`,
       {
         // next: { revalidate: 0 }, // Disable caching
       }

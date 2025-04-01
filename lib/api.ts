@@ -91,7 +91,7 @@ export interface Article {
 export async function fetchGlobalData(): Promise<StrapiGlobalData | null> {
   try {
     const res = await fetch(
-      "https://credible-rhythm-2abfae7efc.strapiapp.com/api/global?populate=defaultSeo.shareImage",
+      "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/global?populate=defaultSeo.shareImage",
       {
         next: { revalidate: 3600 },
       },

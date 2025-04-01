@@ -11,7 +11,7 @@ import SimilarArticles from "@/components/SimilarArticles";
 async function getArticleBySlug(slug: string) {
   try {
     const response = await fetch(
-      `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles/${slug}?populate=*`,
+      `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles/${slug}?populate=*`,
       { cache: "no-store" }
     );
 

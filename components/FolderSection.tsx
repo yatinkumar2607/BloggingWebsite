@@ -39,7 +39,7 @@ export default function FolderSection({
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const apiUrl = `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[publishedAt]=desc&pagination[limit]=3&populate=*`;
+        const apiUrl = `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?filters[category][slug][$eq]=${category}&sort[publishedAt]=desc&pagination[limit]=3&populate=*`;
 
         const response = await fetch(apiUrl);
 

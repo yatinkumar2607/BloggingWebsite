@@ -61,7 +61,7 @@ export default function ArticlesContainer() {
         const pageSize = isMobile ? 6 : 12;
 
         const response = await fetch(
-          `https://credible-rhythm-2abfae7efc.strapiapp.com/api/articles?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
+          `https://truthful-prosperity-edd54e9c51.strapiapp.com/api/articles?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`
         );
 
         if (!response.ok) {
