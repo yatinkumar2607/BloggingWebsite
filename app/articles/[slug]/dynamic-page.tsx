@@ -16,7 +16,7 @@ async function getArticleBySlug(slug: string) {
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch article: ${response.status}`);
+      throw new Error(`Failed to fetch article : ${response.status}`);
     }
 
     return await response.json();
