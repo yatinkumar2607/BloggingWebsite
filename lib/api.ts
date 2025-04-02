@@ -92,9 +92,9 @@ export async function fetchGlobalData(): Promise<StrapiGlobalData | null> {
   try {
     const res = await fetch(
       "https://truthful-prosperity-edd54e9c51.strapiapp.com/api/global?populate=defaultSeo.shareImage",
-      {
-        next: { revalidate: 3600 },
-      },
+      // {
+      //   next: { revalidate: 3600 },
+      // },
     )
 
     if (!res.ok) {
@@ -114,8 +114,8 @@ export function getFallbackNavigation(): NavItem[] {
     { label: "Home", href: "/" },
     { label: "Trending", href: "/articles/trending" },
     { label: "Recent", href: "/articles/recent" },
-    { label: "Articles", href: "/articles" },
-    { label: "About", href: "/about" },
+    // { label: "Articles", href: "/articles" },
+    // { label: "About", href: "/about" },
   ]
 }
   
