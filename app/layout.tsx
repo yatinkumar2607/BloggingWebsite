@@ -56,16 +56,16 @@ const dmSans = DM_Sans({
 export async function generateMetadata(): Promise<Metadata> {
   const globalData = await fetchGlobalData();
 
-  const fallbackTitle = "Six and Fours | Sports News and Updates";
+  const fallbackTitle = "Cricket Blogger | Sports News and Updates";
   const fallbackDescription =
-    "Six and Fours provides the latest sports news, trending stories, and in-depth articles.";
-  const fallbackUrl = "https://sixandfours.com";
+    "Cricket Blogger provides the latest sports news, trending stories, and in-depth articles.";
+  const fallbackUrl = "https://cricketblogger.com";
   const fallbackOgImage = "/images/og-image.jpg";
 
   const siteTitle = globalData?.data?.defaultSeo?.metaTitle || fallbackTitle;
   const siteDescription =
     globalData?.data?.defaultSeo?.metaDescription || fallbackDescription;
-  const siteName = globalData?.data?.siteName || "Six and Fours";
+  const siteName = globalData?.data?.siteName || "Cricket Blogger";
   const faviconUrl = globalData?.data?.favicon?.url || "/favicon.ico";
 
   const ogImageUrl = extractOgImageUrl(globalData) || fallbackOgImage;
@@ -120,7 +120,7 @@ export default async function RootLayout({
 }) {
   const globalData = await fetchGlobalData();
 
-  const siteName = globalData?.data?.siteName || "Six and Fours";
+  const siteName = globalData?.data?.siteName || "Cricket Blogger";
 
   const navItems = extractNavItems(globalData);
 

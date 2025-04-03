@@ -22,7 +22,7 @@ export default function HeroSection({ posts = [] }: HeroSectionProps) {
       tag: "Featured",
       date: "Today",
       image: "/placeholder.svg?height=600&width=1200",
-      title: "Welcome to Six and Fours",
+      title: "Welcome to Cricket Blogger",
     };
 
     return (

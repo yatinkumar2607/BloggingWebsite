@@ -36,14 +36,14 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Article Not Found | Six and Fours",
+      title: "Article Not Found | Cricket Blogger",
       description: "The article you're looking for could not be found.",
     };
   }
 
   const title = article.title || "Article";
   const description =
-    article.description || "Read this article on Six and Fours.";
+    article.description || "Read this article on Cricket Blogger.";
 
   let ogImageUrl = "/images/og-image.jpg";
   if (article.cover) {
@@ -55,13 +55,13 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${title} | Six and Fours`,
+    title: `${title} | Cricket Blogger`,
     description: description,
     openGraph: {
       title: title,
       description: description,
       url: `/articles/${slug}`,
-      siteName: "Six and Fours",
+      siteName: "Cricket Blogger",
       type: "article",
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,
